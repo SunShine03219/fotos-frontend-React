@@ -7,7 +7,6 @@ import { UsersList } from "../UsersList";
 
 export function Tabs({ isAdmin }) {
     const [activeTab, setActiveTab] = useState("original");
-    console.log(`${isAdmin} on Tabs`)
     const handleTabClick = (tabName) => {
         setActiveTab(tabName);
     };

@@ -2,6 +2,9 @@ import { useState } from "react";
 
 import { SearchBar } from '../SearchBar'
 import {PaginationTable} from "../Pagination";
+import {MainButton} from "../MainButton";
+
+import { Link } from "react-router-dom";
 
 const data = [
     {
@@ -41,7 +44,12 @@ export function UsersList ({ tableName })  {
 
     return (
         <div className="w-full">
-            <h2 className="text-lg font-medium mb-4">{tableName}</h2>
+            <div className="flex justify-between">
+                <h2 className="text-lg font-medium mb-4">{tableName}</h2>
+                <Link to='/add-user'>
+                    <MainButton title="Add User"/>
+                </Link>
+            </div>
             <SearchBar onValueChange={setSearchTerm} />
             <PaginationTable data={filteredData} action={usersListRowAction} itemsPerPage={3} />
         </div>

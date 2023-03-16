@@ -4,6 +4,8 @@ import { PaginationTable } from '../Pagination'
 import { SearchBar } from '../SearchBar'
 import { MainButton } from '../MainButton'
 
+import { Link } from "react-router-dom";
+
 const data = [
     {
         id: 1,
@@ -79,7 +81,9 @@ export function OriginalPictures ({ tableName })  {
         <div className="w-full">
             <div className="flex justify-between">
                 <h2 className="text-lg font-medium mb-4">{tableName}</h2>
-                <MainButton title="Upload Files"/>
+                <Link to='/upload'>
+                    <MainButton title="Upload Files"/>
+                </Link>
             </div>
             <SearchBar onValueChange={setSearchTerm} />
             <PaginationTable data={filteredData} action={originalPicturesRowAction} itemsPerPage={3} />
