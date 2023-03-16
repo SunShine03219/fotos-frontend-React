@@ -14,7 +14,7 @@ export function PictureRow({ id, item, rowTitle }) {
     }
 
     const handleConfirmDelete = () => {
-        // Call your delete function here
+        // TODO
         setShowDeleteModal(false);
     }
 

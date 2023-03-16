@@ -23,7 +23,6 @@ export function UploadFilesPage(){
 
 
     const handleUploadClick = () => {
-        //console.log(selectedFiles)
     };
     return (
         <div className="min-h-screen bg-gray-100">
