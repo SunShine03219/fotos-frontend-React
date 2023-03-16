@@ -1,5 +1,13 @@
+import React from 'react'
+
+import { Header } from '../../components/Header'
+import { Tabs } from '../../components/Tabs'
+
 export function HomePage(){
     return (
-        <h1>Home page</h1>
+        <>
+            <Header name='Givaldo Neto'/>
+            <Tabs isAdmin={true}/>
+        </>
     )
 }

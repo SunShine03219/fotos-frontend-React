@@ -42,7 +42,7 @@ export function LoginPage() {
                     </div>
 
                     <div className="flex justify-end mt-6">
-                        <MainButton onSubmit={handleSubmit}/>
+                        <MainButton onSubmit={handleSubmit} title='Login'/>
                     </div>
                 </form>
             </div>
