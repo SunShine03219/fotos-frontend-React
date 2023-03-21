@@ -163,14 +163,14 @@ export function OriginalPictures ({ tableName })  {
 
 
     return (
-        <div className="w-full">
+        <div className="w-full flex flex-col flex-1 h-full">
             <div className="flex justify-between">
-                <h2 className="text-lg font-medium mb-4">{tableName}</h2>
+                <SearchBar onValueChange={setSearchTerm} />
+
                 <Link to='/upload'>
                     <MainButton title="Upload Files"/>
                 </Link>
             </div>
-            <SearchBar onValueChange={setSearchTerm} />
             <Breadcrumb folder={folderPath} onFolderSelect={handleDataUpdateBreadCrumb} onReset={onReset}/>
             <PaginationTable
                 data={filteredData}

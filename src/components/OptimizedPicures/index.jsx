@@ -160,8 +160,7 @@ export function OptimizedPictures ({ tableName })  {
     }
 
     return (
-        <div className="w-full">
-            <h2 className="text-lg font-medium mb-4">{tableName}</h2>
+        <div className="w-full flex flex-col flex-1 h-full">
             <SearchBar onValueChange={setSearchTerm} />
             <Breadcrumb
                 folder={folderPath}

@@ -17,8 +17,9 @@ export function Breadcrumb({ folder, onFolderSelect, onReset }) {
     return (
         <div className="flex items-center space-x-2 mb-4">
             <span className=" cursor-pointer" onClick={onReset}>
-                /
+                Start /
             </span>
+
             {breadcrumbItems}
         </div>
     );
