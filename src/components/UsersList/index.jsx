@@ -48,14 +48,13 @@ export function UsersList ({ tableName })  {
     };
 
     return (
-        <div className="w-full">
+        <div className="w-full flex flex-col flex-1 h-full">
             <div className="flex justify-between">
-                <h2 className="text-lg font-medium mb-4">{tableName}</h2>
+                <SearchBar onValueChange={setSearchTerm} />
                 <Link to='/add-user'>
                     <MainButton title="Add User"/>
                 </Link>
             </div>
-            <SearchBar onValueChange={setSearchTerm} />
             <PaginationTable
                 data={filteredData}
                 action={usersListRowAction}

@@ -12,7 +12,7 @@ export function Tabs({ isAdmin }) {
     };
 
     return (
-        <div className="mt-8 px-5">
+        <div className="px-5 flex flex-col justify-center items-center flex-1 h-full mt-[-60px]">
             <nav className="flex justify-start">
                 <TabButton
                     active={activeTab === "original"}
@@ -32,7 +32,7 @@ export function Tabs({ isAdmin }) {
                     />
                 )}
             </nav>
-            <div className="mt-10">
+            <div className="mt-0 max-w-[960px] border border-gray-300 p-10 rounded min-h-[450px]">
                 {activeTab === "original" && <OriginalPictures tableName='Filenames'/>}
                 {activeTab === "optimized" && <OptimizedPictures tableName='Filenames' /> }
                 {isAdmin && activeTab === "users" && <UsersList tableName='Users'/>}
