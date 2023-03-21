@@ -6,7 +6,7 @@ import {MainButton} from "../MainButton";
 
 import { Link } from "react-router-dom";
 
-const data2 = [
+const mockedData = [
     {
         id: 1,
         name: "User 1",
@@ -36,7 +36,7 @@ const usersListRowAction = 'Edit'
 
 export function UsersList ({ tableName })  {
     const [searchTerm, setSearchTerm] = useState("");
-    const [data, setData] = useState(data2);
+    const [data, setData] = useState(mockedData);
 
 
     const filteredData = data.filter((item) =>

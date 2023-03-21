@@ -7,7 +7,7 @@ import { Breadcrumb } from "../BreadCrumb";
 
 import { Link } from "react-router-dom";
 
-const data2 = [
+const mockedData = [
     {
         id: 1,
         title: "filename_a.jpg",
@@ -129,9 +129,9 @@ const data2 = [
 const originalPicturesRowAction = 'Download'
 
 export function OriginalPictures ({ tableName })  {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [data, setData] = useState(data2);
-    const [folderPath, setFolderPath] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("")
+    const [data, setData] = useState(mockedData)
+    const [folderPath, setFolderPath] = useState([])
 
     const filteredData = data.filter((item) =>
         item.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -158,7 +158,7 @@ export function OriginalPictures ({ tableName })  {
 
     const onReset = () => {
         setFolderPath([])
-        setData(data2)
+        setData(mockedData)
     }
 
 
