@@ -28,14 +28,14 @@ export function PaginationTable({ data, action, itemsPerPage, onDataUpdate, tabl
 
 
     return (
-        <>
+        <div class="flex flex-1 flex-col h-full">
             <Table
                 data={currentItems}
                 action={action}
                 onFolderClickTable={handleFolderClick}
                 tableName={tableName}
             />
-            <div className="flex justify-center items-center mt-4">
+            <div className="flex justify-center items-center mt-auto">
                 {currentPage > 1 && (
                     <button
                         className="mx-2 bg-gray-200 hover:bg-primary_dark hover:text-white py-1 px-3 rounded-full"
@@ -64,6 +64,6 @@ export function PaginationTable({ data, action, itemsPerPage, onDataUpdate, tabl
                     </button>
                 )}
             </div>
-        </>
+        </div>
     );
 }

@@ -193,7 +193,7 @@ export function MainContent({ tableName }) {
     }
 
     return (
-        <div className="w-full">
+        <div className="w-full flex flex-col flex-1 h-full">
             <div className="flex justify-between">
                 <h2 className="text-lg font-medium mb-4">{tableName}</h2>
                 {tableName !== 'Optimized' &&
