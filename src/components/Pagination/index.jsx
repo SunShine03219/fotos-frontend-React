@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { Table } from "../Table";
 
-export function PaginationTable({ data, action, itemsPerPage }) {
+export function PaginationTable({ data, action, itemsPerPage, onDataUpdate, tableName }) {
     const [currentPage, setCurrentPage] = useState(1);
 
     const maxPages = Math.ceil(data.length / itemsPerPage);
@@ -21,9 +21,20 @@ export function PaginationTable({ data, action, itemsPerPage }) {
         }
     }
 
+    const handleFolderClick = async (item) => {
+        onDataUpdate(item);
+        setCurrentPage(1);
+    };
+
+
     return (
         <>
-            <Table data={currentItems} action={action} />
+            <Table
+                data={currentItems}
+                action={action}
+                onFolderClickTable={handleFolderClick}
+                tableName={tableName}
+            />
             <div className="flex justify-center items-center mt-4">
                 {currentPage > 1 && (
                     <button
