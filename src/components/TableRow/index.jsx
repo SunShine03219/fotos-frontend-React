@@ -45,12 +45,12 @@ export function PictureRow({ id, item, rowTitle, onFolderClick, tableName}) {
 
 
     return (
-        <tr key={id} className="last:border last:border-r-0 last:border-t-0 last:border-l-0">
-            <td className="flex cursor-pointer items-center gap-2 border border-border_gray border-r-0 border-b-0 py-4 px-2" onClick={() => handleRowClick(item)}>
+        <tr key={id} className=" border border-border_gray">
+            <td className="flex cursor-pointer items-center gap-2 py-4 px-2" onClick={() => handleRowClick(item)}>
                 {tableName === 'Users' ? <AiOutlineUser /> : item.type !== "folder" ? <AiOutlineFile/> : <AiOutlineFolder/>}
                 {item.title ? item.title : item.name}
             </td>
-            <td className="border border-border_gray border-l-0 border-r-0 py-2 px-2">
+            <td className="py-2 px-2">
                 {rowTitle === 'Download' ?
                     <AiOutlineCloudDownload size="1.5em" className="mx-auto"/>
                     :
@@ -61,7 +61,7 @@ export function PictureRow({ id, item, rowTitle, onFolderClick, tableName}) {
                     />
                 }
             </td>
-            <td className="border border-border_gray border-l-0 py-2 px-2">
+            <td className="py-2 px-2">
                 <AiOutlineDelete size="1.5em" className="mx-auto cursor-pointer hover:text-red-500" onClick={() => handleDeleteClick(item.title ? item.title : item.name)}/>
             </td>
             {showDeleteModal &&
