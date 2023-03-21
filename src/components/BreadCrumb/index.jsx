@@ -19,6 +19,7 @@ export function Breadcrumb({ folder, onFolderSelect, onReset }) {
             <span className=" cursor-pointer" onClick={onReset}>
                 /
             </span>
+            {breadcrumbItems}
         </div>
     );
 }

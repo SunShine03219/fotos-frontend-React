@@ -22,7 +22,6 @@ export function PaginationTable({ data, action, itemsPerPage, onDataUpdate, tabl
     }
 
     const handleFolderClick = async (item) => {
-        // update the data in the parent component
         onDataUpdate(item);
         setCurrentPage(1);
     };
@@ -33,7 +32,7 @@ export function PaginationTable({ data, action, itemsPerPage, onDataUpdate, tabl
             <Table
                 data={currentItems}
                 action={action}
-                onFolderClick2={handleFolderClick}
+                onFolderClickTable={handleFolderClick}
                 tableName={tableName}
             />
             <div className="flex justify-center items-center mt-4">

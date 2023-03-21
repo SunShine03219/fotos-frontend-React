@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { AiOutlineCloudDownload, AiOutlineEdit, AiOutlineDelete, AiOutlineUser, AiOutlineFile, AiOutlineFolder } from "react-icons/ai";
 
 import { DeleteModal } from '../DeleteModal'
-import { EditUserModal } from '../EditUserModal'
+import { EditModal } from '../EditModal'
 
 
 export function PictureRow({ id, item, rowTitle, onFolderClick, tableName}) {
@@ -71,7 +71,7 @@ export function PictureRow({ id, item, rowTitle, onFolderClick, tableName}) {
             }
             {showEditUserModal &&
                 <td>
-                    <EditUserModal title={titleToDelete} onDelete={handleConfirmEdit} onCancel={handleCancelEdit}/>
+                    <EditModal title={titleToDelete} onDelete={handleConfirmEdit} onCancel={handleCancelEdit}/>
                 </td>
             }
         </tr>
