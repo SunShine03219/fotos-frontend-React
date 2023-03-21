@@ -1,7 +1,12 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { PictureRow } from '../TableRow'
 
-export function Table({ data, action }) {
+export function Table({ data, action, onFolderClick2, tableName }) {
+
+
+    const handleFolderClick = async (item) => {
+        onFolderClick2(item)
+    }
 
     return (
         <table className="table-fixed w-full">
@@ -14,7 +19,13 @@ export function Table({ data, action }) {
             </thead>
             <tbody>
             {data.map((item) => (
-               <PictureRow key={item.id} item={item} rowTitle={action}/>
+               <PictureRow
+                   key={item.id}
+                   item={item}
+                   rowTitle={action}
+                   onFolderClick={handleFolderClick}
+                   tableName={tableName}
+               />
             ))}
             </tbody>
         </table>

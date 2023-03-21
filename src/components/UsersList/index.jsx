@@ -6,7 +6,7 @@ import {MainButton} from "../MainButton";
 
 import { Link } from "react-router-dom";
 
-const data = [
+const data2 = [
     {
         id: 1,
         name: "User 1",
@@ -36,11 +36,16 @@ const usersListRowAction = 'Edit'
 
 export function UsersList ({ tableName })  {
     const [searchTerm, setSearchTerm] = useState("");
+    const [data, setData] = useState(data2);
 
 
     const filteredData = data.filter((item) =>
         item.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const handleDataUpdate = (updatedData) => {
+        setData(updatedData);
+    };
 
     return (
         <div className="w-full">
@@ -51,7 +56,13 @@ export function UsersList ({ tableName })  {
                 </Link>
             </div>
             <SearchBar onValueChange={setSearchTerm} />
-            <PaginationTable data={filteredData} action={usersListRowAction} itemsPerPage={3} />
+            <PaginationTable
+                data={filteredData}
+                action={usersListRowAction}
+                itemsPerPage={3}
+                onDataUpdate={handleDataUpdate}
+                tableName={tableName}
+            />
         </div>
     )
 }
