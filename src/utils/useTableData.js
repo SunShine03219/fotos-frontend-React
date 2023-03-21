@@ -1,13 +1,4 @@
-import { useState} from "react";
-
-import { PaginationTable } from '../Pagination'
-import { SearchBar } from '../SearchBar'
-import { MainButton } from '../MainButton'
-import { Breadcrumb } from "../BreadCrumb";
-
-import { Link } from "react-router-dom";
-
-const mockedData = [
+const mockedDataFile = [
     {
         id: 1,
         title: "filename_a.jpg",
@@ -125,61 +116,40 @@ const mockedData = [
         size: "3.2 MB",
         date: "2022-03-14",
     }
-];
-const originalPicturesRowAction = 'Download'
+]
+const mockedDataUser = [
+    {
+        id: 1,
+        name: "User 1",
+    },
+    {
+        id: 2,
+        name: "User 2",
+    },
+    {
+        id: 3,
+        name: "User 3",
+    },
+    {
+        id: 4,
+        name: "User 4",
+    },
+    {
+        id: 5,
+        name: "User 5",
+    },
+    {
+        id: 6,
+        name: "User 6",
+    },
+]
 
-export function OriginalPictures ({ tableName })  {
-    const [searchTerm, setSearchTerm] = useState("")
-    const [data, setData] = useState(mockedData)
-    const [folderPath, setFolderPath] = useState([])
-
-    const filteredData = data.filter((item) =>
-        item.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    const handleDataUpdate = (updatedData) => {
-        setData(updatedData.content);
-        const alreadyInPath = folderPath.some((folder) => folder.id === updatedData.id);
-        if (!alreadyInPath) {
-            const newFolderPath = [...folderPath, updatedData];
-            setFolderPath(newFolderPath);
-        }
+export function useTableData(tableName) {
+    const tableDataLookup = {
+        Original: { rowAction: 'Download', mockedData: mockedDataFile, buttonTitle: 'Update File', buttonLink: '/upload' },
+        Optimized: { rowAction: 'Download', mockedData: mockedDataFile },
+        Users: { rowAction: 'Edit', mockedData: mockedDataUser, buttonTitle: 'Add User', buttonLink: '/add-user' },
     };
 
-    const handleDataUpdateBreadCrumb = (updatedData) => {
-        setData(updatedData.content);
-        const clickedIndex = folderPath.findIndex((folder) => folder.id === updatedData.id);
-        if (clickedIndex === -1) {
-            return;
-        }
-        const newFolderPath = folderPath.slice(0, clickedIndex + 1);
-        setFolderPath(newFolderPath);
-    }
-
-    const onReset = () => {
-        setFolderPath([])
-        setData(mockedData)
-    }
-
-
-    return (
-        <div className="w-full flex flex-col flex-1 h-full">
-            <div className="flex justify-between">
-                <SearchBar onValueChange={setSearchTerm} />
-
-                <Link to='/upload'>
-                    <MainButton title="Upload Files"/>
-                </Link>
-            </div>
-            <Breadcrumb folder={folderPath} onFolderSelect={handleDataUpdateBreadCrumb} onReset={onReset}/>
-            <PaginationTable
-                data={filteredData}
-                action={originalPicturesRowAction}
-                itemsPerPage={3}
-                onDataUpdate={handleDataUpdate}
-                tableName={tableName}
-            />
-        </div>
-    )
+    return tableDataLookup[tableName]
 }
-

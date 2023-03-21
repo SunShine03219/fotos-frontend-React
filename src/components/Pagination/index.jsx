@@ -28,7 +28,7 @@ export function PaginationTable({ data, action, itemsPerPage, onDataUpdate, tabl
 
 
     return (
-        <div class="flex flex-1 flex-col h-full">
+        <div className="flex flex-1 flex-col h-full">
             <Table
                 data={currentItems}
                 action={action}

@@ -1,9 +1,7 @@
 import { useState } from "react";
 
-import { OriginalPictures } from '../OriginalPictures'
-import { OptimizedPictures } from '../OptimizedPicures'
 import { TabButton } from '../TabButton'
-import { UsersList } from "../UsersList";
+import { MainContent } from "../MainContent";
 
 export function Tabs({ isAdmin }) {
     const [activeTab, setActiveTab] = useState("original");
@@ -33,9 +31,9 @@ export function Tabs({ isAdmin }) {
                 )}
             </nav>
             <div className="mt-0 max-w-[960px] border border-gray-300 p-10 rounded min-h-[450px]">
-                {activeTab === "original" && <OriginalPictures tableName='Filenames'/>}
-                {activeTab === "optimized" && <OptimizedPictures tableName='Filenames' /> }
-                {isAdmin && activeTab === "users" && <UsersList tableName='Users'/>}
+                {activeTab === "original" && <MainContent tableName='Original'/>}
+                {activeTab === "optimized" && <MainContent tableName='Optimized' /> }
+                {isAdmin && activeTab === "users" && <MainContent tableName='Users'/>}
             </div>
         </div>
     );
