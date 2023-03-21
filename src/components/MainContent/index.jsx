@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState} from "react";
 
+import { PaginationTable } from '../Pagination'
 import { SearchBar } from '../SearchBar'
-import { PaginationTable } from "../Pagination";
-import { Breadcrumb } from "../BreadCrumb";
+import { MainButton } from '../MainButton'
+import { Breadcrumb } from "../BreadCrumb"
+
+import { Link } from "react-router-dom";
 
 const mockedData = [
     {
@@ -122,59 +125,17 @@ const mockedData = [
         size: "3.2 MB",
         date: "2022-03-14",
     }
-]
-const originalPicturesRowAction = 'Download'
+];
 
+export function MainContent({ tableName }) {
+    const RowAction = tableName === 'Original' || tableName === 'Optimized' ? 'Download' : 'Edit'
 
-export function OptimizedPictures ({ tableName })  {
     const [searchTerm, setSearchTerm] = useState("")
     const [data, setData] = useState(mockedData)
     const [folderPath, setFolderPath] = useState([])
 
-    const filteredData = data.filter((item) =>
-        item.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    const handleDataUpdate = (updatedData) => {
-        setData(updatedData.content);
-        const alreadyInPath = folderPath.some((folder) => folder.id === updatedData.id);
-        if (!alreadyInPath) {
-            const newFolderPath = [...folderPath, updatedData];
-            setFolderPath(newFolderPath);
-        }
-    };
-
-    const handleDataUpdateBreadCrumb = (updatedData) => {
-        setData(updatedData.content);
-        const clickedIndex = folderPath.findIndex((folder) => folder.id === updatedData.id);
-        if (clickedIndex === -1) {
-            return;
-        }
-        const newFolderPath = folderPath.slice(0, clickedIndex + 1);
-        setFolderPath(newFolderPath);
-    }
-
-    const onReset = () => {
-        setFolderPath([])
-        setData(mockedData)
-    }
-
     return (
-        <div className="w-full">
-            <h2 className="text-lg font-medium mb-4">{tableName}</h2>
-            <SearchBar onValueChange={setSearchTerm} />
-            <Breadcrumb
-                folder={folderPath}
-                onFolderSelect={handleDataUpdateBreadCrumb}
-                onReset={onReset}
-            />
-            <PaginationTable
-                data={filteredData}
-                action={originalPicturesRowAction}
-                itemsPerPage={3}
-                onDataUpdate={handleDataUpdate}
-            />
-        </div>
+
     )
 }
 
