@@ -2,14 +2,32 @@ import { useState } from "react";
 
 import { InputField } from '../../components/InputFields'
 import { MainButton } from '../../components/MainButton'
+import { AlertModal } from '../../components/AlertModal'
+
+import { useAuth } from "../../hooks/auth";
 
 export function LoginPage() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
 
-    const handleSubmit = (event) => {
+    const [showModal, setShowModal] = useState(false)
+    const [modalmessage, setModalmessage] = useState('')
+    const [modalType, setModalType] = useState('')
+
+    const { signIn } = useAuth();
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // TODO: handle login logic here
+        const response = await signIn({ email, password })
+
+        //if login runs ok will return undefined
+        if (response){
+            setShowModal(true)
+            setModalmessage(response)
+            setModalType('error')
+            setTimeout(() => setShowModal(false), 1500)
+        }
+
     };
 
     return (
@@ -19,7 +37,6 @@ export function LoginPage() {
                     <h2 className="text-3xl font-extrabold text-gray-900">Login</h2>
                 </div>
                 <form className="px-6 pt-8 pb-6" onSubmit={handleSubmit}>
-                    <input type="hidden" name="remember" defaultValue="true" />
                     <div className="space-y-4">
                         <div>
                             <InputField
@@ -46,6 +63,7 @@ export function LoginPage() {
                     </div>
                 </form>
             </div>
+            { showModal && <AlertModal message={modalmessage} type={modalType} />}
         </div>
     );
 }
