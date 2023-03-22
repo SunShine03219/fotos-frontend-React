@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
+
 export const AlertModal = ({ type, message }) => {
 
     const modalStyle = type === "error" ? "bg-red-500" : "bg-green-500";
@@ -15,13 +17,9 @@ export const AlertModal = ({ type, message }) => {
                   <div className="flex items-center justify-between">
                       <h3 className="text-lg font-medium text-white text-center">{type === "error" ? "Error" : "Success"}</h3>
                       {type === "error" ? (
-                        <svg className="w-6 h-6 text-white mr-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                        <AiOutlineClose />
                     ) : (
-                        <svg className="w-6 h-6 text-white mr-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                        </svg>
+                        <AiOutlineCheck />
                     )}
                   </div>
                     <div className="mt-3 text-white text-sm">{message}</div>
