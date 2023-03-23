@@ -10,7 +10,7 @@ export function Tabs({ isAdmin }) {
     };
 
     return (
-        <div className="px-5 flex flex-col justify-center items-center flex-1 h-full mt-[-60px]">
+        <div className="px-5 flex flex-col justify-center items-center flex-1 h-full">
             <nav className="flex justify-start">
                 <TabButton
                     active={activeTab === "original"}
