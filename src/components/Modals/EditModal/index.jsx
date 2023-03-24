@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { InputField } from "../InputFields"
+import { InputField } from "../../UI/InputFields"
 
 
 export function EditModal({ title, onDelete, onCancel }) {
@@ -9,7 +9,7 @@ export function EditModal({ title, onDelete, onCancel }) {
             <div className="fixed top-0 left-0 h-full w-full flex justify-center items-center bg-gray-800 bg-opacity-50">
                 <div className="bg-white w-1/3 rounded-lg p-4">
                     <p className="text-xl font-medium mb-4">Editing info: {title}</p>
-                    <form action="">
+                    <form action="src/components/Modals/EditModal/index">
                         <div className="space-y-4">
                             <div>
                                 <InputField

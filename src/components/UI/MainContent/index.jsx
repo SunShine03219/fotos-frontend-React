@@ -1,31 +1,39 @@
-import { useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 
 import { PaginationTable } from '../Pagination'
 import { SearchBar } from '../SearchBar'
-import { MainButton } from '../MainButton'
 import { Breadcrumb } from "../BreadCrumb";
-import { useTableData } from '../../utils/useTableData'
+import { useTableData } from '../../../utils/useTableData'
+import { MainActionButtons } from "../MainActionButtons";
 
-import { Link } from "react-router-dom";
 
-export function MainContent({ tableName }) {
+export function MainContent({ tableName, onUserUpdate  }) {
+    const [data, setData] = useState([])
 
     const { rowAction, mockedData, buttonTitle, buttonLink } = useTableData(tableName);
 
+    useEffect(() => {
+        setData(mockedData);
+    }, [mockedData]);
+
     const [searchTerm, setSearchTerm] = useState("")
-    const [data, setData] = useState(mockedData)
     const [folderPath, setFolderPath] = useState([])
 
-    const filteredData = data.filter((item) =>
-        (item.title?.toLowerCase() ??  item.name?.toLowerCase() ?? '').includes(searchTerm.toLowerCase())
+    const filteredData = useMemo(
+        () =>
+            data.filter((item) =>
+                (item.title?.toLowerCase() ?? item.name?.toLowerCase() ?? "").includes(searchTerm.toLowerCase())
+            ),
+        [data, searchTerm]
     )
 
+
     const handleDataUpdate = (updatedData) => {
-        setData(updatedData.content);
-        const alreadyInPath = folderPath.some((folder) => folder.id === updatedData.id);
+        setData(updatedData.content)
+        const alreadyInPath = folderPath.some((folder) => folder.id === updatedData.id)
         if (!alreadyInPath) {
-            const newFolderPath = [...folderPath, updatedData];
-            setFolderPath(newFolderPath);
+            const newFolderPath = [...folderPath, updatedData]
+            setFolderPath(newFolderPath)
         }
     };
 
@@ -36,7 +44,7 @@ export function MainContent({ tableName }) {
             return;
         }
         const newFolderPath = folderPath.slice(0, clickedIndex + 1);
-        setFolderPath(newFolderPath);
+        setFolderPath(newFolderPath)
     }
 
     const onReset = () => {
@@ -48,11 +56,7 @@ export function MainContent({ tableName }) {
         <div className="w-full flex flex-col flex-1 h-full">
             <div className="flex justify-between">
                 <h2 className="text-lg font-medium mb-4">{tableName}</h2>
-                {tableName !== 'Optimized' &&
-                    <Link to={buttonLink}>
-                        <MainButton title={buttonTitle}/>
-                    </Link>
-                }
+                <MainActionButtons tableName={tableName} buttonLink={buttonLink} buttonTitle={buttonTitle} />
             </div>
             <SearchBar onValueChange={setSearchTerm} />
             {tableName !== 'Users' && <Breadcrumb
@@ -66,6 +70,7 @@ export function MainContent({ tableName }) {
                 itemsPerPage={3}
                 onDataUpdate={handleDataUpdate}
                 tableName={tableName}
+                onUserUpdate={onUserUpdate}
             />
         </div>
     )

@@ -7,7 +7,7 @@ export function Breadcrumb({ folder, onFolderSelect, onReset }) {
             {index === folder.length - 1 ? (
                 <span>{folder.title}</span>
             ) : (
-                <a href="#" onClick={() => onFolderSelect(folder)}>
+                <a href="src/components/UI/BreadCrumb/index#" onClick={() => onFolderSelect(folder)}>
                     {folder.title}
                 </a>
             )}

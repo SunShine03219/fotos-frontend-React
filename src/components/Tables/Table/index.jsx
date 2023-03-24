@@ -1,7 +1,7 @@
 import React from 'react'
 import { PictureRow } from '../TableRow'
 
-export function Table({ data, action, onFolderClickTable, tableName }) {
+export function Table({ data, action, onFolderClickTable, tableName, onUserUpdate }) {
 
 
     const handleFolderClick = async (item) => {
@@ -25,6 +25,7 @@ export function Table({ data, action, onFolderClickTable, tableName }) {
                    rowTitle={action}
                    onFolderClick={handleFolderClick}
                    tableName={tableName}
+                   onUserUpdate={onUserUpdate}
                />
             ))}
             </tbody>
