@@ -1,16 +1,52 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { Header } from "../../components/Header";
-import { InputField } from "../../components/InputFields"
+
+import { Header } from "../../components/UI/Header";
+import { InputField } from "../../components/UI/InputFields"
+import { addUser } from "../../services/api";
 
 import { AiOutlineArrowRight } from "react-icons/ai";
-import { MainButton } from "../../components/MainButton";
+import { MainButton } from "../../components/UI/MainButton";
+import { AlertModal } from '../../components/Modals/AlertModal'
+
 import { Link } from "react-router-dom";
 
 export function AddUserPage() {
-    const [isEditing, setIsEditing] = useState(false);
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('')
+    const [isAdmin, setIsAdmin] = useState(false)
+
+    const [showModal, setShowModal] = useState(false)
+    const [modalmessage, setModalmessage] = useState('')
+    const [modalType, setModalType] = useState('')
+
+    const navigateTo = useNavigate();
+
+    const handleSaveClick = async (e) => {
+        e.preventDefault();
+
+
+        try {
+            const response = await addUser(name, email, password, isAdmin ? "admin" : "default");
+            setShowModal(true)
+            setModalmessage('User created!')
+            setModalType('success')
+            setTimeout(() => {
+                setShowModal(false)
+                navigateTo('/')
+            }, 1500)
+
+        } catch (error) {
+            console.error("Error adding user:", error);
+            setShowModal(true)
+            setModalmessage(error.response.data.message)
+            setModalType('error')
+            setTimeout(() => setShowModal(false), 1500)
+        }
+    }
 
 
     return (
@@ -34,6 +70,8 @@ export function AddUserPage() {
                                 type="text"
                                 name="name"
                                 id="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                             />
                         </div>
                     </div>
@@ -47,6 +85,8 @@ export function AddUserPage() {
                                 type="email"
                                 name="email"
                                 id="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
                     </div>
@@ -60,14 +100,34 @@ export function AddUserPage() {
                                 type="password"
                                 name="currentPassword"
                                 id="currentPassword"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
                     </div>
+                    <div className="mb-4">
+                        <label htmlFor="isAdmin" className="sr-only">
+                            Admin
+                        </label>
+                        <div className="relative">
+                            <input
+                                type="checkbox"
+                                name="isAdmin"
+                                id="isAdmin"
+                                checked={isAdmin}
+                                onChange={() => setIsAdmin(!isAdmin)}
+                            />
+                            <label htmlFor="isAdmin" className="ml-2">
+                                Is admin
+                            </label>
+                        </div>
+                    </div>
                     <div className="flex justify-end">
-                        <MainButton title="Save"/>
+                        <MainButton title="Save" onClick={handleSaveClick}/>
                     </div>
                 </div>
             </div>
+            { showModal && <AlertModal message={modalmessage} type={modalType} />}
         </div>
     )
 }

@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import { InputField } from '../../components/InputFields'
-import { MainButton } from '../../components/MainButton'
-import { AlertModal } from '../../components/AlertModal'
+import { InputField } from '../../components/UI/InputFields'
+import { MainButton } from '../../components/UI/MainButton'
+import { AlertModal } from '../../components/Modals/AlertModal'
 
 import { useAuth } from "../../hooks/auth";
 
@@ -59,7 +59,7 @@ export function LoginPage() {
                     </div>
 
                     <div className="flex justify-end mt-6">
-                        <MainButton onSubmit={handleSubmit} title='Login'/>
+                        <MainButton onSubmit={handleSubmit} title='Login' type="submit"/>
                     </div>
                 </form>
             </div>

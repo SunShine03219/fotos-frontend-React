@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 
-import { Header } from "../../components/Header";
+import { Header } from "../../components/UI/Header";
 
-import { MainButton } from "../../components/MainButton";
+import { MainButton } from "../../components/UI/MainButton";
 import { Link } from "react-router-dom";
 import {AiOutlineArrowRight, AiOutlineCloudUpload, AiOutlineClose} from "react-icons/ai";
-import {InputField} from "../../components/InputFields";
+import {InputField} from "../../components/UI/InputFields";
 
 export function UploadFilesPage(){
     const [selectedFiles, setSelectedFiles] = useState([]);

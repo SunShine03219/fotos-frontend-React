@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react'
 import { AiOutlineLogout, AiOutlineUser }from "react-icons/ai"
 import { Link } from "react-router-dom";
 
-import { useAuth } from "../../hooks/auth";
+import { useAuth } from "../../../hooks/auth";
 
 export function Header({ name }){
 
