@@ -1,7 +1,7 @@
 import {createContext, useContext, useEffect, useState} from "react";
 
 import {api, login} from '../services/api';
-import {errorMessages} from '../utils/errorMessages'
+import { errorMessages } from '../utils/errorMessages'
 
 export const AuthContext = createContext({});
 
