@@ -5,7 +5,6 @@ import { Header } from "../../components/UI/Header";
 import { MainButton } from "../../components/UI/MainButton";
 import { Link } from "react-router-dom";
 import {AiOutlineArrowRight, AiOutlineCloudUpload, AiOutlineClose} from "react-icons/ai";
-import {InputField} from "../../components/UI/InputFields";
 
 export function UploadFilesPage(){
     const [selectedFiles, setSelectedFiles] = useState([]);
