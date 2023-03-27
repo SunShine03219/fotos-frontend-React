@@ -1,7 +1,7 @@
 import { DeleteModal } from "../DeleteModal";
 import { EditModal } from "../EditModal";
 
-export function TableModals({ showDeleteModal, showEditUserModal, titleToDelete, onConfirmDelete, onCancelDelete, onConfirmEdit, onCancelEdit }) {
+export function TableModals({ userData, showDeleteModal, showEditUserModal, titleToDelete, onConfirmDelete, onCancelDelete, onConfirmEdit, onCancelEdit }) {
     return (
         <>
             {showDeleteModal && (
@@ -11,7 +11,7 @@ export function TableModals({ showDeleteModal, showEditUserModal, titleToDelete,
             )}
             {showEditUserModal && (
                 <td>
-                    <EditModal title={titleToDelete} onDelete={onConfirmEdit} onCancel={onCancelEdit} />
+                    <EditModal title={titleToDelete} onDelete={onConfirmEdit} onCancel={onCancelEdit} userData={userData}/>
                 </td>
             )}
         </>
