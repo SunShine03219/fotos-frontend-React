@@ -1,15 +1,13 @@
-import {createContext, useContext, useEffect, useState} from "react"
-import { useNavigate } from "react-router-dom"
-
+import { createContext, useContext, useEffect, useState } from "react"
 
 import {api, login, setSignOutHandler } from '../services/api'
 import { errorMessages } from '../utils/errorMessages'
 
 export const AuthContext = createContext({})
 
-function AuthProvider({ children }) {
+function AuthProvider({ children, onSignOut }) {
     const [data, setData] = useState({})
-    const [isAuthenticated, setIsAuthenticated] = useState(false)// Add this line
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
 
 
     async function signIn({ email, password }) {
@@ -21,7 +19,7 @@ function AuthProvider({ children }) {
 
             api.defaults.headers.common['Authorization'] = '' + access_token
             setData({ access_token })
-            setIsAuthenticated(true); // Update isAuthenticated state
+            setIsAuthenticated(true)
         } catch (error) {
              if (error.response) {
                  return errorMessages[error.response.data.error]
@@ -31,9 +29,10 @@ function AuthProvider({ children }) {
 
 
     function signOut() {
-        localStorage.removeItem("@doubleu:token");
-        setData({});
-        setIsAuthenticated(false); // Update isAuthenticated state
+        localStorage.removeItem("@doubleu:token")
+        setData({})
+        setIsAuthenticated(false)
+        window.location.href = "/"
     }
 
 
@@ -45,7 +44,7 @@ function AuthProvider({ children }) {
             setData({
                 access_token,
             });
-            setIsAuthenticated(true); // Update isAuthenticated state
+            setIsAuthenticated(true);
         }
         setSignOutHandler(signOut)
     }, []);

@@ -33,7 +33,6 @@ export function AddUserPage() {
 
         //if login runs ok will return undefined
         if (response) {
-            console.error("Error adding user:", response);
             setShowModal(true)
             setModalmessage(response)
             setModalType('error')
