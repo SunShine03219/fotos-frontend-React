@@ -5,11 +5,6 @@ import { MainContent } from "../UI/MainContent";
 
 export function Tabs({ isAdmin }) {
     const [activeTab, setActiveTab] = useState("original");
-    const [usersVersion, setUsersVersion] = useState(0);
-
-    const handleUserUpdate = () => {
-        setUsersVersion(prevVersion => prevVersion + 1);
-    };
 
     const handleTabClick = (tabName) => {
         setActiveTab(tabName);
@@ -39,7 +34,7 @@ export function Tabs({ isAdmin }) {
             <div className="mt-0 max-w-[960px] border border-gray-300 p-10 rounded min-h-[450px]">
                 {activeTab === "original" && <MainContent tableName='Original'/>}
                 {activeTab === "optimized" && <MainContent tableName='Optimized' /> }
-                {isAdmin && activeTab === "users" && <MainContent tableName='Users' onUserUpdate={handleUserUpdate}/>}
+                {isAdmin && activeTab === "users" && <MainContent tableName='Users'/>}
             </div>
         </div>
     );

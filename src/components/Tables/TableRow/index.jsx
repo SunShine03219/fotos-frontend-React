@@ -7,7 +7,7 @@ import { useUsers } from "../../../context/usersContext";
 import { TableModals } from "../../Modals/TableModals"
 import {TableActionButtons} from "../TableActionButtons";
 
-export function PictureRow({ id, item, rowTitle, onFolderClick, tableName, onUserUpdate}) {
+export function PictureRow({ id, item, rowTitle, onFolderClick, tableName}) {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditUserModal, setShowEditUserModal] = useState(false);
     const [titleToDelete, setTitleToDelete] = useState('');
@@ -25,10 +25,9 @@ export function PictureRow({ id, item, rowTitle, onFolderClick, tableName, onUse
     const handleConfirmDelete = useCallback(
         (id) => {
             deleteU(id);
-            onUserUpdate();
             setShowDeleteModal(false);
         },
-        [deleteU, onUserUpdate, setShowDeleteModal]
+        [deleteU, setShowDeleteModal]
     );
 
     const handleCancelDelete = () => {

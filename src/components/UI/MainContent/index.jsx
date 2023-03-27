@@ -7,7 +7,7 @@ import { useTableData } from '../../../utils/useTableData'
 import { MainActionButtons } from "../MainActionButtons";
 
 
-export function MainContent({ tableName, onUserUpdate  }) {
+export function MainContent({ tableName }) {
     const [data, setData] = useState([])
 
     const { rowAction, mockedData, buttonTitle, buttonLink } = useTableData(tableName);
@@ -70,7 +70,6 @@ export function MainContent({ tableName, onUserUpdate  }) {
                 itemsPerPage={3}
                 onDataUpdate={handleDataUpdate}
                 tableName={tableName}
-                onUserUpdate={onUserUpdate}
             />
         </div>
     )
