@@ -43,7 +43,6 @@ const getUserData = async () => {
     return data
 }
 
-
 const getAllUsers = async () => {
     const { data } = await api.get("users")
     return data
@@ -54,7 +53,6 @@ const deleteUser = async (id) => {
     return data
 }
 
-
 const addUserToDatabase = async (name, email, password, isAdmin) => {
     const { data } = await api.post("users/", {
         name,
@@ -64,5 +62,22 @@ const addUserToDatabase = async (name, email, password, isAdmin) => {
     })
 }
 
+const editUserInfoProfile = async (id, name, email, oldPassword, newPassword) => {
+    const payload = {
+        name,
+        email,
+    }
 
-export { api, login, getUserData, getAllUsers, deleteUser, addUserToDatabase, setSignOutHandler }
+    if (oldPassword !== undefined && newPassword !== undefined) {
+        payload.old_password = oldPassword
+        payload.new_password = newPassword
+    }
+
+    const { data } = await api.patch(`users/${id}`, payload)
+
+    return data
+}
+
+
+
+export { api, login, getUserData, getAllUsers, deleteUser, addUserToDatabase, setSignOutHandler, editUserInfoProfile }
