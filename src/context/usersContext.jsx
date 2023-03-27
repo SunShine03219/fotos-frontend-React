@@ -1,5 +1,6 @@
 import {createContext, useState, useEffect, useContext} from "react";
-import {deleteUser, getAllUsers, getUserData} from "../services/api";
+import { deleteUser, getAllUsers, getUserData, addUserToDatabase} from "../services/api";
+import {errorMessages} from "../utils/errorMessages";
 
 
 export const UsersContext = createContext({})
@@ -8,25 +9,39 @@ function UserProvider({ children }) {
     const [users, setUsers] = useState([])
     const [currentUser, setCurrentUser] = useState([])
 
-    useEffect(() => {
-        async function fetchData2(){
-            const data = await getAllUsers()
-            setUsers(data)
-        }
-        fetchData2()
-    }, [])
+    const getToken = localStorage.getItem("@doubleu:token")
 
     useEffect(() => {
-        async function fetchData(){
-            const userData = await getUserData()
+        const fetchData = async () => {
+            const allUsers = await getAllUsers(getToken)
+            const userData = await getUserData(getToken)
+            setUsers(allUsers)
             setCurrentUser(userData)
         }
         fetchData()
     }, [])
 
+    const updateUser = async (id, name, email) => {
+        console.log(id, name, email)
+    };
+
+    const addUser = async (name, email, password, isAdmin) => {
+        try {
+            await addUserToDatabase(name, email, password, isAdmin, getToken)
+            const allUsers = await getAllUsers(getToken)
+            const userData = await getUserData(getToken)
+            setUsers(allUsers)
+            setCurrentUser(userData)
+        } catch (error) {
+            if (error.response) {
+                return errorMessages[error.response.data.error]
+            }
+        }
+    };
+
     const deleteU = async (id, callback) => {
         try {
-            await deleteUser(id)
+            await deleteUser(id, getToken)
             setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
             if (callback) {
                 callback();
@@ -38,7 +53,7 @@ function UserProvider({ children }) {
 
 
     return (
-        <UsersContext.Provider value={{ users, currentUser, deleteU }}>
+        <UsersContext.Provider value={{ users, currentUser, deleteU, addUser, updateUser }}>
             {children}
         </UsersContext.Provider>
     )

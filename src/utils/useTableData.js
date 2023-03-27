@@ -1,5 +1,4 @@
-import { useUsers } from "../context/usersContext";
-import {useEffect, useState} from "react";
+import { useUsers } from "../context/usersContext"
 
 const mockedDataFile = [
     {
