@@ -11,7 +11,7 @@ export function ProfileForm({ userName, userEmail, onChange, onSave, onCancel })
         <>
             <div className="mb-4">
                 <InputField
-                    label="Name"
+                    label="New Name"
                     type="text"
                     name="name"
                     id="name"
@@ -21,7 +21,7 @@ export function ProfileForm({ userName, userEmail, onChange, onSave, onCancel })
             </div>
             <div className="mb-4">
                 <InputField
-                    label="Email"
+                    label="New Email"
                     type="email"
                     name="email"
                     id="email"

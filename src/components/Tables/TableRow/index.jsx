@@ -78,6 +78,7 @@ export function PictureRow({ id, item, rowTitle, onFolderClick, tableName, onUse
                 showDeleteModal={showDeleteModal}
                 showEditUserModal={showEditUserModal}
                 titleToDelete={titleToDelete}
+                userData={item}
                 onConfirmDelete={() => handleConfirmDelete(item.id)}
                 onCancelDelete={handleCancelDelete}
                 onConfirmEdit={handleConfirmEdit}

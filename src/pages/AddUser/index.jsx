@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Header } from "../../components/UI/Header";
 import { InputField } from "../../components/UI/InputFields"
-import { addUser } from "../../services/api";
+import { useUsers } from "../../context/usersContext";
 
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { MainButton } from "../../components/UI/MainButton";
@@ -24,13 +24,21 @@ export function AddUserPage() {
     const [modalType, setModalType] = useState('')
 
     const navigateTo = useNavigate();
+    const { addUser } = useUsers()
 
     const handleSaveClick = async (e) => {
         e.preventDefault();
 
+        const response = await addUser(name, email, password, isAdmin ? "admin" : "default")
 
-        try {
-            const response = await addUser(name, email, password, isAdmin ? "admin" : "default");
+        //if login runs ok will return undefined
+        if (response) {
+            console.error("Error adding user:", response);
+            setShowModal(true)
+            setModalmessage(response)
+            setModalType('error')
+            setTimeout(() => setShowModal(false), 1500)
+        } else {
             setShowModal(true)
             setModalmessage('User created!')
             setModalType('success')
@@ -38,13 +46,6 @@ export function AddUserPage() {
                 setShowModal(false)
                 navigateTo('/')
             }, 1500)
-
-        } catch (error) {
-            console.error("Error adding user:", error);
-            setShowModal(true)
-            setModalmessage(error.response.data.message)
-            setModalType('error')
-            setTimeout(() => setShowModal(false), 1500)
         }
     }
 

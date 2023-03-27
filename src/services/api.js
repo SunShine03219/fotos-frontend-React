@@ -1,62 +1,49 @@
 import axios from 'axios'
 
 const BASE_LOCAL_URL = 'http://0.0.0.0:8000/'
-const GET_TOKEN = localStorage.getItem("@doubleu:token")
 
-export const api = axios.create({
-    baseURL: BASE_LOCAL_URL
+const api = axios.create({
+    baseURL: BASE_LOCAL_URL,
+});
+
+// Add interceptors to handle authorization headers
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem("@doubleu:token")
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+    }
+    return config;
 })
 
 const login = (email, password) => {
-    return axios.post(`${BASE_LOCAL_URL}login`, {
-        email,
-        password
-    })
-        .then(response => response.data);
+    return api.post("login", { email, password }).then((response) => response.data)
 }
 
 const getUserData = async () => {
-
-    const { data } = await axios.get(`${BASE_LOCAL_URL}users/me`, {
-        headers: {
-            Authorization: `Bearer ${GET_TOKEN}`
-        }
-    })
+    const { data } = await api.get("users/me");
     return data
 }
+
 
 const getAllUsers = async () => {
-
-    const { data } = await axios.get(`${BASE_LOCAL_URL}users`, {
-        headers: {
-            Authorization: `Bearer ${GET_TOKEN}`
-        }
-    })
+    const { data } = await api.get("users");
     return data
-}
+};
 
 const deleteUser = async (id) => {
-    const { data } = await axios.delete(`${BASE_LOCAL_URL}users/${id}`, {
-        headers: {
-            Authorization: `Bearer ${GET_TOKEN}`
-        }
-    })
+    const { data } = await api.delete(`users/${id}`);
     return data
 }
 
-const addUser = async (name, email, password, isAdmin) => {
-    const { data } = await axios.post(`${BASE_LOCAL_URL}users/`, {
+
+const addUserToDatabase = async (name, email, password, isAdmin) => {
+    const { data } = await api.post("users/", {
         name,
         email,
         password,
-        role: isAdmin
-    }, {
-        headers: {
-            Authorization: `Bearer ${GET_TOKEN}`
-        }
+        role: isAdmin,
     })
-    return data
 }
 
 
-export { login, getUserData, getAllUsers, deleteUser, addUser }
+export { api, login, getUserData, getAllUsers, deleteUser, addUserToDatabase }

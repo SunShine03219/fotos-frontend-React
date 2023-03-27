@@ -3,34 +3,39 @@ import { useState } from 'react';
 import { Header } from "../../components/UI/Header";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { useUserData } from "../../hooks/useUserData";
 import { ProfileForm } from "../../components/Forms/ProfileForm";
-import {MainButton} from "../../components/UI/MainButton";
+import { MainButton } from "../../components/UI/MainButton";
+
+import { useUsers } from "../../context/usersContext";
 
 
 export function ProfilePage() {
 
-    const {
-        userName,
-        userEmail,
-        initialUserName,
-        initialUserEmail,
-        updateUser,
-    } = useUserData();
-    const [isEditing, setIsEditing] = useState(false);
+    const { currentUser, updateUser } = useUsers()
 
+    const userName = currentUser.name
+    const userEmail = currentUser.email
+
+    const [isEditing, setIsEditing] = useState(false)
+    const [newUserName, setNewUserName] = useState('');
+    const [newUserEmail, setNewUserEmail] = useState('');
+
+    // Update the state variables when input changes
     const handleInputChange = (field, value) => {
-        updateUser(field, value)
-    };
+        if (field === 'userName') {
+            setNewUserName(value);
+        } else if (field === 'userEmail') {
+            setNewUserEmail(value);
+        }
+    }
 
     const handleSaveClick = () => {
-        setIsEditing(false)
-    };
+        updateUser(userId, newUserName, newUserEmail);
+        setIsEditing(false);
+    }
 
     const handleCancelClick = () => {
         setIsEditing(false);
-        updateUser('userName', initialUserName)
-        updateUser('userEmail', initialUserEmail)
     }
 
     return (
@@ -46,8 +51,8 @@ export function ProfilePage() {
                     </div>
                     {isEditing ? (
                         <ProfileForm
-                            userName={userName}
-                            userEmail={userEmail}
+                            userName={newUserName}
+                            userEmail={newUserEmail}
                             onChange={handleInputChange}
                             onSave={handleSaveClick}
                             onCancel={handleCancelClick}

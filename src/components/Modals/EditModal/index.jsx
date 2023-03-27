@@ -1,9 +1,26 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import { InputField } from "../../UI/InputFields"
 
 
-export function EditModal({ title, onDelete, onCancel }) {
+export function EditModal({ userData, title, onDelete, onCancel }) {
+
+    const [name, setName] = useState(userData.name)
+    const [email, setEmail] = useState(userData.email)
+
+    useEffect(() => {
+        setName(userData.name)
+        setEmail(userData.email)
+    }, [userData])
+
+    const handleNameChange = (e) => {
+        setName(e.target.value);
+    };
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    };
+
     return (
         <>
             <div className="fixed top-0 left-0 h-full w-full flex justify-center items-center bg-gray-800 bg-opacity-50">
@@ -16,6 +33,8 @@ export function EditModal({ title, onDelete, onCancel }) {
                                     label="Name"
                                     type="name"
                                     name="name"
+                                    value={name}
+                                    onChange={handleNameChange} // Add onChange handler
                                 />
                             </div>
                             <div>
@@ -23,6 +42,8 @@ export function EditModal({ title, onDelete, onCancel }) {
                                     label="Email"
                                     type="email"
                                     name="email"
+                                    value={email}
+                                    onChange={handleEmailChange} // Add onChange handler
                                 />
                             </div>
                             <div>
