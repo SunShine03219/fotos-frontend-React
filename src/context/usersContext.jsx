@@ -21,8 +21,8 @@ function UserProvider({ children }) {
         fetchData()
     }, [])
 
-    const updateUser = async (id, name, email) => {
-        console.log(id, name, email)
+    const updateUser = async (name, email) => {
+        console.log(name, email)
     };
 
     const addUser = async (name, email, password, isAdmin) => {

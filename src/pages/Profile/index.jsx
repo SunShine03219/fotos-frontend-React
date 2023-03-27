@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 
 import { Header } from "../../components/UI/Header";
 import { AiOutlineArrowRight } from "react-icons/ai";
@@ -17,20 +17,26 @@ export function ProfilePage() {
     const userEmail = currentUser.email
 
     const [isEditing, setIsEditing] = useState(false)
-    const [newUserName, setNewUserName] = useState('');
-    const [newUserEmail, setNewUserEmail] = useState('');
+    const [newUserName, setNewUserName] = useState(userName)
+    const [newUserEmail, setNewUserEmail] = useState(userEmail)
+
+    // Update the state variables when currentUser changes
+    useEffect(() => {
+        setNewUserName(userName)
+        setNewUserEmail(userEmail)
+    }, [userName, userEmail])
 
     // Update the state variables when input changes
     const handleInputChange = (field, value) => {
         if (field === 'userName') {
-            setNewUserName(value);
+            setNewUserName(value)
         } else if (field === 'userEmail') {
-            setNewUserEmail(value);
+            setNewUserEmail(value)
         }
     }
 
     const handleSaveClick = () => {
-        updateUser(userId, newUserName, newUserEmail);
+        updateUser(newUserName, newUserEmail)
         setIsEditing(false);
     }
 
@@ -60,8 +66,8 @@ export function ProfilePage() {
                     ) : (
                         //Should be another component here
                         <>
-                            <div className="mb-4">{userName}</div>
-                            <div className="mb-4">{userEmail}</div>
+                            <div className="mb-4">Name: {userName}</div>
+                            <div className="mb-4">Email: {userEmail}</div>
                             <div className="flex justify-end">
                                 <MainButton title="Edit" onClick={() => setIsEditing(true)} />
                             </div>

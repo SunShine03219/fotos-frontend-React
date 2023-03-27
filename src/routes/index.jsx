@@ -8,11 +8,11 @@ import { UserProvider } from "../context/usersContext";
 
 export function Routes(){
 
-    const { user } = useAuth();
+    const { isAuthenticated } = useAuth();
 
     return (
         <BrowserRouter>
-            {user ?
+            {isAuthenticated ?
                 <UserProvider>
                     <AppRoutes/>
                 </UserProvider>
