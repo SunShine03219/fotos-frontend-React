@@ -1,5 +1,5 @@
 import {createContext, useState, useEffect, useContext} from "react"
-import { deleteUser, getAllUsers, getUserData, addUserToDatabase, editUserInfo} from "../services/api"
+import { deleteUser, getAllUsers, getUserData, addUserToDatabase, editUserInfo} from "../services/userService"
 import { errorMessages } from "../utils/errorMessages"
 
 
@@ -13,10 +13,12 @@ function UserProvider({ children }) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const allUsers = await getAllUsers(getToken)
-            const userData = await getUserData(getToken)
-            setUsers(allUsers)
+            const userData = await getUserData()
             setCurrentUser(userData)
+            if (userData.role === 'admin'){
+                const allUsers = await getAllUsers()
+                setUsers(allUsers)
+            }
         }
         fetchData()
     }, [])
@@ -34,9 +36,11 @@ function UserProvider({ children }) {
                 return {success: errorMessages['SIGN_OUT']}
             } else {
                 const userData = await getUserData(getToken)
-                const allUsers = await getAllUsers(getToken)
                 setCurrentUser(userData)
-                setUsers(allUsers)
+                if (userData.role === 'admin'){
+                    const allUsers = await getAllUsers(getToken)
+                    setUsers(allUsers)
+                }
                 return {updated: errorMessages['UPDATE']}
             }
         } catch (error) {
@@ -55,9 +59,11 @@ function UserProvider({ children }) {
                 newPassword: password
             })
             const userData = await getUserData(getToken)
-            const allUsers = await getAllUsers(getToken)
             setCurrentUser(userData)
-            setUsers(allUsers)
+            if (userData.role === 'admin'){
+                const allUsers = await getAllUsers(getToken)
+                setUsers(allUsers)
+            }
             return {updated: errorMessages['UPDATE']}
         } catch (error) {
             if (error.response) {
@@ -69,10 +75,12 @@ function UserProvider({ children }) {
     const addUser = async (name, email, password, isAdmin) => {
         try {
             await addUserToDatabase(name, email, password, isAdmin, getToken)
-            const allUsers = await getAllUsers(getToken)
             const userData = await getUserData(getToken)
-            setUsers(allUsers)
             setCurrentUser(userData)
+            if (userData.role === 'admin'){
+                const allUsers = await getAllUsers(getToken)
+                setUsers(allUsers)
+            }
         } catch (error) {
             if (error.response) {
                 return errorMessages[error.response.data.error]
