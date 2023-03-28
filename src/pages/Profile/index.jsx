@@ -57,7 +57,6 @@ export function ProfilePage() {
         )
 
         if (response.error) {
-            console.log(response)
             setShowModal(true)
             setModalmessage(response.error)
             setModalType('error')

@@ -1,7 +1,6 @@
 import {createContext, useState, useEffect, useContext} from "react"
-import { deleteUser, getAllUsers, getUserData, addUserToDatabase, editUserInfoProfile} from "../services/api"
+import { deleteUser, getAllUsers, getUserData, addUserToDatabase, editUserInfo} from "../services/api"
 import { errorMessages } from "../utils/errorMessages"
-import { useAuth } from "../hooks/auth";
 
 
 export const UsersContext = createContext({})
@@ -9,7 +8,6 @@ export const UsersContext = createContext({})
 function UserProvider({ children }) {
     const [users, setUsers] = useState([])
     const [currentUser, setCurrentUser] = useState([])
-    const { signOut } = useAuth()
 
     const getToken = localStorage.getItem("@doubleu:token")
 
@@ -25,8 +23,14 @@ function UserProvider({ children }) {
 
     const updateUser = async (id, name, email, oldPassword, newPassword) => {
         try {
-            await editUserInfoProfile(id, name, email, oldPassword, newPassword)
-            if (email !== currentUser.email || (oldPassword && newPassword)) {
+            await editUserInfo({
+                id,
+                name,
+                email,
+                oldPassword,
+                newPassword
+            })
+            if (email !== currentUser.email || (newPassword)) {
                 return {success: errorMessages['SIGN_OUT']}
             } else {
                 const userData = await getUserData(getToken)
@@ -41,6 +45,26 @@ function UserProvider({ children }) {
             }
         }
     };
+
+    const adminUpdateUser = async (id, name, email, password) => {
+        try {
+            await editUserInfo({
+                id,
+                name,
+                email,
+                newPassword: password
+            })
+            const userData = await getUserData(getToken)
+            const allUsers = await getAllUsers(getToken)
+            setCurrentUser(userData)
+            setUsers(allUsers)
+            return {updated: errorMessages['UPDATE']}
+        } catch (error) {
+            if (error.response) {
+                return {error: errorMessages[error.response.data.error]}
+            }
+        }
+    }
 
     const addUser = async (name, email, password, isAdmin) => {
         try {
@@ -70,7 +94,14 @@ function UserProvider({ children }) {
 
 
     return (
-        <UsersContext.Provider value={{ users, currentUser, deleteU, addUser, updateUser }}>
+        <UsersContext.Provider value={{
+            users,
+            currentUser,
+            deleteU,
+            addUser,
+            updateUser,
+            adminUpdateUser
+        }}>
             {children}
         </UsersContext.Provider>
     )

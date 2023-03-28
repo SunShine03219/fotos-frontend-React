@@ -1,7 +1,7 @@
 import { InputField } from "../../UI/InputFields";
 import { MainButton } from "../../UI/MainButton";
 
-export function ProfileForm({ userName, userEmail, isChangingPassword, setIsChangingPassword, currentPassword, newPassword, onChange, onSave, onCancel }) {
+export function ProfileForm({ userName, userEmail, isChangingPassword, setIsChangingPassword, currentPassword, newPassword, onChange, onSave, onCancel, isAdminEditing }) {
 
     const handleInputChange = (field) => (e) => {
         onChange(field, e.target.value)
@@ -35,24 +35,38 @@ export function ProfileForm({ userName, userEmail, isChangingPassword, setIsChan
             </div>
             {isChangingPassword && (
                 <div className="mb-4">
-                    <InputField
-                        label="Current Password"
-                        type="password"
-                        name="current_password"
-                        id="current_password"
-                        value={currentPassword}
-                        required
-                        onChange={handleInputChange('currentPassword')}
-                    />
-                    <InputField
-                        label="New Password"
-                        type="password"
-                        name="password"
-                        id="password"
-                        required
-                        value={newPassword}
-                        onChange={handleInputChange('newPassword')}
-                    />
+                    {isAdminEditing ? (
+                        <InputField
+                            label="New Password"
+                            type="password"
+                            name="password"
+                            id="password"
+                            required
+                            value={newPassword}
+                            onChange={handleInputChange('newPassword')}
+                        />
+                    ) : (
+                        <>
+                            <InputField
+                                label="Current Password"
+                                type="password"
+                                name="current_password"
+                                id="current_password"
+                                value={currentPassword}
+                                required
+                                onChange={handleInputChange('currentPassword')}
+                            />
+                            <InputField
+                            label="New Password"
+                            type="password"
+                            name="password"
+                            id="password"
+                            required
+                            value={newPassword}
+                            onChange={handleInputChange('newPassword')}
+                            />
+                        </>
+                    )}
                 </div>
             )}
             <div className="mb-4">
