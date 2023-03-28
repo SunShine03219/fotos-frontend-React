@@ -62,15 +62,18 @@ const addUserToDatabase = async (name, email, password, isAdmin) => {
     })
 }
 
-const editUserInfoProfile = async (id, name, email, oldPassword, newPassword) => {
+const editUserInfo = async ({ id, name, email, oldPassword, newPassword }) => {
     const payload = {
         name,
         email,
     }
 
-    if (oldPassword !== undefined && newPassword !== undefined) {
-        payload.old_password = oldPassword
+    if ( newPassword !== undefined) {
         payload.new_password = newPassword
+    }
+
+    if (oldPassword !== undefined){
+        payload.old_password = oldPassword
     }
 
     const { data } = await api.patch(`users/${id}`, payload)
@@ -80,4 +83,4 @@ const editUserInfoProfile = async (id, name, email, oldPassword, newPassword) =>
 
 
 
-export { api, login, getUserData, getAllUsers, deleteUser, addUserToDatabase, setSignOutHandler, editUserInfoProfile }
+export { api, login, getUserData, getAllUsers, deleteUser, addUserToDatabase, setSignOutHandler, editUserInfo }
