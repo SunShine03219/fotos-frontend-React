@@ -129,13 +129,13 @@ export function useTableData(tableName) {
     const tableDataLookup = {
         Original: {
             rowAction: 'Download',
-            mockedData: mockedDataFile,
+            mockedData: files,
             buttonTitle: 'Update File',
             buttonLink: '/upload'
         },
         Optimized: {
             rowAction: 'Download',
-            mockedData: mockedDataFile
+            mockedData: files
         },
         Users: {
             rowAction: 'Edit',

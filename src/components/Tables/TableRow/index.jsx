@@ -53,18 +53,23 @@ export function PictureRow({ id, item, rowTitle, onFolderClick, tableName}) {
 
     const handleRowClick = useCallback(
         (item) => {
-            if (item.type === "folder") {
-                onFolderClick(item);
+            if (!hasFileExtension(item.title)) {
+                onFolderClick(item)
             }
         },
         [onFolderClick]
     );
 
+    function hasFileExtension(str) {
+        // The regular expression pattern matches a string that contains a period (.) followed by one or more word characters at the end of the string
+        const regex = /\.\w+$/;
+        return regex.test(str);
+    }
 
     return (
         <tr key={id} className=" border border-border_gray">
             <td className="flex cursor-pointer items-center gap-2 py-4 px-2" onClick={() => handleRowClick(item)}>
-                {tableName === 'Users' ? <AiOutlineUser /> : item.type !== "folder" ? <AiOutlineFile/> : <AiOutlineFolder/>}
+                {tableName === 'Users' ? <AiOutlineUser /> : hasFileExtension(item.title) ? <AiOutlineFile/> : <AiOutlineFolder/>}
                 {item.title ? item.title : item.name}
             </td>
             <TableActionButtons

@@ -1,8 +1,7 @@
-import React from 'react'
-import { PictureRow } from '../TableRow'
-import {login} from "../../../services/userService";
+    import React from 'react'
+    import { PictureRow } from '../TableRow'
 
-export function Table({ data, action, onFolderClickTable, tableName }) {
+    export function Table({ data, action, onFolderClickTable, tableName }) {
 
 
     const handleFolderClick = async (item) => {
@@ -21,7 +20,7 @@ export function Table({ data, action, onFolderClickTable, tableName }) {
             <tbody>
             {data.map((item) => (
                <PictureRow
-                   key={item.id}
+                   key={item.title}
                    item={item}
                    rowTitle={action}
                    onFolderClick={handleFolderClick}
