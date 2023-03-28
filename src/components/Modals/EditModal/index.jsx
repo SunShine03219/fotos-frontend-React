@@ -4,7 +4,7 @@ import { MainButton } from "../../UI/MainButton"
 import { ProfileForm } from "../../Forms/ProfileForm"
 
 import { useUsers } from "../../../context/usersContext";
-import {AlertModal} from "../AlertModal";
+import { AlertModal } from "../AlertModal";
 
 export function EditModal({ userData , onCancel }) {
 
@@ -12,7 +12,6 @@ export function EditModal({ userData , onCancel }) {
 
     const [name, setName] = useState(userData.name)
     const [email, setEmail] = useState(userData.email)
-    console.log(userData)
 
     const [isEditing, setIsEditing] = useState(false)
     const [newUserName, setNewUserName] = useState(name)
@@ -53,7 +52,6 @@ export function EditModal({ userData , onCancel }) {
             isChangingPassword ? newPassword : undefined
         )
         if (response.error) {
-            console.log(response)
             setShowModal(true)
             setModalmessage(response.error)
             setModalType('error')

@@ -1,7 +1,6 @@
 import {createContext, useState, useEffect, useContext} from "react"
 import { deleteUser, getAllUsers, getUserData, addUserToDatabase, editUserInfo} from "../services/api"
 import { errorMessages } from "../utils/errorMessages"
-import { useAuth } from "../hooks/auth";
 
 
 export const UsersContext = createContext({})
@@ -9,7 +8,6 @@ export const UsersContext = createContext({})
 function UserProvider({ children }) {
     const [users, setUsers] = useState([])
     const [currentUser, setCurrentUser] = useState([])
-    const { signOut } = useAuth()
 
     const getToken = localStorage.getItem("@doubleu:token")
 
