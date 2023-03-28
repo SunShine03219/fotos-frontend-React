@@ -5,6 +5,7 @@ import { AppRoutes } from "./app.routes"
 import { AuthRoutes } from "./auth.routes"
 
 import { UserProvider } from "../context/usersContext";
+import { FilesProvider } from "../context/filesContext";
 
 export function Routes(){
 
@@ -14,7 +15,9 @@ export function Routes(){
         <BrowserRouter>
             {isAuthenticated ?
                 <UserProvider>
-                    <AppRoutes/>
+                    <FilesProvider>
+                        <AppRoutes/>
+                    </FilesProvider>
                 </UserProvider>
                 :
                 <AuthRoutes/>}

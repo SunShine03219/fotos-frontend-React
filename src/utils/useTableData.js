@@ -1,4 +1,5 @@
 import { useUsers } from "../context/usersContext"
+import { useFiles } from "../context/filesContext";
 
 const mockedDataFile = [
     {
@@ -123,6 +124,7 @@ const mockedDataFile = [
 export function useTableData(tableName) {
 
     const { users } = useUsers()
+    const { files } = useFiles()
 
     const tableDataLookup = {
         Original: {
