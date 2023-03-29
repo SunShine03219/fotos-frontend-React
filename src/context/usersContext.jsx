@@ -1,5 +1,11 @@
 import {createContext, useState, useEffect, useContext} from "react"
-import { deleteUser, getAllUsers, getUserData, addUserToDatabase, editUserInfo} from "../services/userService"
+import {
+    deleteUser,
+    getAllUsers,
+    getUserData,
+    addUserToDatabase,
+    editUserInfo,
+} from "../services/userService"
 import { errorMessages } from "../utils/errorMessages"
 
 
@@ -9,15 +15,18 @@ function UserProvider({ children }) {
     const [users, setUsers] = useState([])
     const [currentUser, setCurrentUser] = useState([])
 
+    const updateUserList = async (userData) => {
+        if (userData.role === "admin") {
+            const allUsers = await getAllUsers(userData.id)
+            setUsers(allUsers)
+        }
+    }
 
     useEffect(() => {
         const fetchData = async () => {
             const userData = await getUserData()
             setCurrentUser(userData)
-            if (userData.role === 'admin'){
-                const allUsers = await getAllUsers(userData.id)
-                setUsers(allUsers)
-            }
+            await updateUserList(userData)
         }
         fetchData()
     }, [])
@@ -36,10 +45,7 @@ function UserProvider({ children }) {
             } else {
                 const userData = await getUserData()
                 setCurrentUser(userData)
-                if (userData.role === 'admin'){
-                    const allUsers = await getAllUsers(userData.id)
-                    setUsers(allUsers)
-                }
+                await updateUserList(userData)
                 return {updated: errorMessages['UPDATE']}
             }
         } catch (error) {
@@ -59,10 +65,7 @@ function UserProvider({ children }) {
             })
             const userData = await getUserData()
             setCurrentUser(userData)
-            if (userData.role === 'admin'){
-                const allUsers = await getAllUsers(userData.id)
-                setUsers(allUsers)
-            }
+            await updateUserList(userData)
             return {updated: errorMessages['UPDATE']}
         } catch (error) {
             if (error.response) {
@@ -76,10 +79,7 @@ function UserProvider({ children }) {
             await addUserToDatabase(name, email, password, isAdmin)
             const userData = await getUserData()
             setCurrentUser(userData)
-            if (userData.role === 'admin'){
-                const allUsers = await getAllUsers(userData.id)
-                setUsers(allUsers)
-            }
+            await updateUserList(userData)
         } catch (error) {
             if (error.response) {
                 return errorMessages[error.response.data.error]

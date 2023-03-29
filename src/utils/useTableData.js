@@ -130,7 +130,7 @@ export function useTableData(tableName) {
         Original: {
             rowAction: 'Download',
             mockedData: files,
-            buttonTitle: 'Update File',
+            buttonTitle: 'Update File Here',
             buttonLink: '/upload'
         },
         Optimized: {

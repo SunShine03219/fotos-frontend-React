@@ -85,12 +85,16 @@ export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName
                 }
                 {truncateText(item.title ? item.title : item.name, 40)}
             </td>
-            <TableActionButtons
-                rowTitle={rowTitle}
-                item={item}
-                onEditClick={handleEditClick}
-                onDeleteClick={handleDeleteClick}
-            />
+            {
+                !(tableName === "Users" && index === 0 && currentPage === 1) && (
+                    <TableActionButtons
+                        rowTitle={rowTitle}
+                        item={item}
+                        onEditClick={handleEditClick}
+                        onDeleteClick={handleDeleteClick}
+                    />
+                )
+            }
             <TableModals
                 showDeleteModal={showDeleteModal}
                 showEditUserModal={showEditUserModal}

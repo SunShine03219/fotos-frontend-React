@@ -1,28 +1,45 @@
-import React, {useState} from 'react';
+import React, {useState} from 'react'
 
-import { Header } from "../../components/UI/Header";
+import { Header } from "../../components/UI/Header"
 
-import { MainButton } from "../../components/UI/MainButton";
-import { Link } from "react-router-dom";
-import {AiOutlineArrowRight, AiOutlineCloudUpload, AiOutlineClose} from "react-icons/ai";
+import { MainButton } from "../../components/UI/MainButton"
+import { Link } from "react-router-dom"
+import { AiOutlineArrowRight, AiOutlineCloudUpload, AiOutlineClose } from "react-icons/ai"
+import { useFiles } from "../../context/filesContext";
 
 export function UploadFilesPage(){
-    const [selectedFiles, setSelectedFiles] = useState([]);
+    const [selectedFiles, setSelectedFiles] = useState([])
+    const { folderPath, setFolderPath, uploadFiles } = useFiles()
+
+    let url = ""
+
+    folderPath.forEach((folder) => {
+        url += `/${folder.title}`
+    })
+
+    if (url === "") {
+        url = "/"
+    }
 
     function handleFileChange(event) {
-        const newImages = [...selectedFiles, ...event.target.files];
-        setSelectedFiles(newImages);
+        const newImages = [...selectedFiles, ...event.target.files]
+        setSelectedFiles(newImages)
     }
 
     function handleRemoveFile(index) {
-        const newFiles = [...selectedFiles];
-        newFiles.splice(index, 1);
-        setSelectedFiles(newFiles);
+        const newFiles = [...selectedFiles]
+        newFiles.splice(index, 1)
+        setSelectedFiles(newFiles)
     }
 
+    function handleClick(){
+        setFolderPath([])
+    }
 
-    const handleUploadClick = () => {
-    };
+    function handleUploadClick() {
+        uploadFiles(url, selectedFiles)
+    }
+
     return (
         <div className="min-h-screen bg-gray-100">
             <Header name="Givaldo Neto"/>
@@ -30,7 +47,7 @@ export function UploadFilesPage(){
                 <div className="bg-white rounded-lg p-10 w-1/2">
                     <div className="flex justify-between">
                         <h2 className="text-2xl font-medium mb-4">Upload Files</h2>
-                        <Link to="/">
+                        <Link to="/" onClick={handleClick}>
                             <AiOutlineArrowRight size="1.5em"/>
                         </Link>
                     </div>
@@ -49,7 +66,10 @@ export function UploadFilesPage(){
                             ))}
                         </div>
                         <div className="flex justify-end mt-20">
-                            <MainButton title="Upload" onSubmit={handleUploadClick} />
+                            <MainButton title="Upload" onClick={handleUploadClick} />
+                        </div>
+                        <div className="mt-4 text-xs">
+                            The upload will be done on the folder: <br/> {url}
                         </div>
                     </div>
                 </div>

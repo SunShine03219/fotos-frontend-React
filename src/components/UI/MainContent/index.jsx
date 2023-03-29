@@ -4,11 +4,14 @@ import { PaginationTable } from '../Pagination'
 import { SearchBar } from '../SearchBar'
 import { Breadcrumb } from "../BreadCrumb";
 import { useTableData } from '../../../utils/useTableData'
-import { MainActionButtons } from "../MainActionButtons";
+import { MainActionButtons } from "../MainActionButtons"
+
+import { useFiles } from "../../../context/filesContext";
 
 
 export function MainContent({ tableName }) {
     const [data, setData] = useState([])
+    const { folderPath, setFolderPath } = useFiles()
 
     const { rowAction, mockedData, buttonTitle, buttonLink } = useTableData(tableName);
 
@@ -17,7 +20,7 @@ export function MainContent({ tableName }) {
     }, [mockedData]);
 
     const [searchTerm, setSearchTerm] = useState("")
-    const [folderPath, setFolderPath] = useState([])
+    //const [folderPath, setFolderPath] = useState([])
 
     const filteredData = useMemo(
         () =>

@@ -1,10 +1,11 @@
 import { createContext, useState, useEffect, useContext } from "react"
-import { getFileData } from '../services/filesServices'
+import { getFileData, uploadAPI } from '../services/filesServices'
 
 export const FilesContext = createContext({})
 
 function FilesProvider({ children }) {
     const [files, setFiles] = useState([])
+    const [folderPath, setFolderPath] = useState([])
 
 
     useEffect(() => {
@@ -15,9 +16,20 @@ function FilesProvider({ children }) {
         fetchData()
     }, [])
 
+    const uploadFiles = async (url, selectedFiles) => {
+        try {
+            await uploadAPI(url, selectedFiles)
+        } catch (error) {
+            console.log('error on update files')
+        }
+    }
+
     return (
         <FilesContext.Provider  value={{
-            files
+            files,
+            folderPath,
+            setFolderPath,
+            uploadFiles
         }}>
             {children}
         </FilesContext.Provider>
