@@ -9,14 +9,13 @@ function UserProvider({ children }) {
     const [users, setUsers] = useState([])
     const [currentUser, setCurrentUser] = useState([])
 
-    const getToken = localStorage.getItem("@doubleu:token")
 
     useEffect(() => {
         const fetchData = async () => {
             const userData = await getUserData()
             setCurrentUser(userData)
             if (userData.role === 'admin'){
-                const allUsers = await getAllUsers()
+                const allUsers = await getAllUsers(userData.id)
                 setUsers(allUsers)
             }
         }
@@ -35,10 +34,10 @@ function UserProvider({ children }) {
             if (email !== currentUser.email || (newPassword)) {
                 return {success: errorMessages['SIGN_OUT']}
             } else {
-                const userData = await getUserData(getToken)
+                const userData = await getUserData()
                 setCurrentUser(userData)
                 if (userData.role === 'admin'){
-                    const allUsers = await getAllUsers(getToken)
+                    const allUsers = await getAllUsers(userData.id)
                     setUsers(allUsers)
                 }
                 return {updated: errorMessages['UPDATE']}
@@ -48,7 +47,7 @@ function UserProvider({ children }) {
                 return {error: errorMessages[error.response.data.error]}
             }
         }
-    };
+    }
 
     const adminUpdateUser = async (id, name, email, password) => {
         try {
@@ -58,10 +57,10 @@ function UserProvider({ children }) {
                 email,
                 newPassword: password
             })
-            const userData = await getUserData(getToken)
+            const userData = await getUserData()
             setCurrentUser(userData)
             if (userData.role === 'admin'){
-                const allUsers = await getAllUsers(getToken)
+                const allUsers = await getAllUsers(userData.id)
                 setUsers(allUsers)
             }
             return {updated: errorMessages['UPDATE']}
@@ -74,11 +73,11 @@ function UserProvider({ children }) {
 
     const addUser = async (name, email, password, isAdmin) => {
         try {
-            await addUserToDatabase(name, email, password, isAdmin, getToken)
-            const userData = await getUserData(getToken)
+            await addUserToDatabase(name, email, password, isAdmin)
+            const userData = await getUserData()
             setCurrentUser(userData)
             if (userData.role === 'admin'){
-                const allUsers = await getAllUsers(getToken)
+                const allUsers = await getAllUsers(userData.id)
                 setUsers(allUsers)
             }
         } catch (error) {
@@ -86,14 +85,14 @@ function UserProvider({ children }) {
                 return errorMessages[error.response.data.error]
             }
         }
-    };
+    }
 
     const deleteU = async (id, callback) => {
         try {
-            await deleteUser(id, getToken)
-            setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+            await deleteUser(id)
+            setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id))
             if (callback) {
-                callback();
+                callback()
             }
         } catch (error) {
             console.error('Error deleting user:', error);

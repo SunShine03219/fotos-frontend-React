@@ -1,4 +1,4 @@
-import { apiClient } from './apiClient'
+import {apiClient} from './apiClient'
 
 
 const login = (email, password) => {
@@ -10,10 +10,19 @@ const getUserData = async () => {
     return data
 }
 
-const getAllUsers = async () => {
+const getAllUsers = async (currentUser) => {
     const { data } = await apiClient.get("users")
-    return data
-};
+
+    return data.sort((userA, userB) => {
+        if (userA.id === currentUser) {
+            return -1
+        } else if (userB.id === currentUser) {
+            return 1
+        } else {
+            return 0
+        }
+    })
+}
 
 const deleteUser = async (id) => {
     const { data } = await apiClient.delete(`users/${id}`)
