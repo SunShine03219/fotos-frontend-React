@@ -25,7 +25,7 @@ export function AddUserPage() {
     const [modalType, setModalType] = useState('')
 
     const navigateTo = useNavigate()
-    const { addUser } = useUsers()
+    const { addUser, currentUser } = useUsers()
     const { setFolderPath } = useFiles()
 
     const handleSaveClick = async (e) => {
@@ -56,7 +56,7 @@ export function AddUserPage() {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <Header name="Givaldo Neto"/>
+            <Header name={currentUser.name}/>
             <div className="flex justify-center items-center py-12">
                 <div className="bg-white rounded-lg p-10 w-1/2">
                     <div className="flex justify-between">

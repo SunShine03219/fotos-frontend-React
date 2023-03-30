@@ -2,17 +2,20 @@ import React, {useCallback, useState} from 'react'
 
 import { AiOutlineUser, AiOutlineFile, AiOutlineFolder } from "react-icons/ai"
 
-
 import { useUsers } from "../../../context/usersContext"
 import { TableModals } from "../../Modals/TableModals"
-import {TableActionButtons} from "../TableActionButtons"
+import { TableActionButtons } from "../TableActionButtons"
+import { useFiles } from "../../../context/filesContext"
+import { formatText, hasFileExtension } from "../../../utils/helpers"
 
-export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName, currentPage}) {
+export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName, currentPage, onAlert}) {
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [showEditUserModal, setShowEditUserModal] = useState(false)
     const [titleToDelete, setTitleToDelete] = useState('')
 
     const { deleteU } = useUsers()
+    const { deleteFile, folderPath } = useFiles()
+
 
     const handleDeleteClick = useCallback(
         (title) => {
@@ -29,6 +32,22 @@ export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName
         },
         [deleteU, setShowDeleteModal]
     );
+
+    const handleConfirmDeleteFile = useCallback(
+        async () => {
+            let url = folderPath.reduce((acc, folder) => acc + '/' + folder.title, '')
+
+            const encodedTitle = titleToDelete.replace(/ /g, '%')
+
+            url += '/' + encodedTitle
+
+            const response = await deleteFile(url)
+            setShowDeleteModal(false)
+            //TODO: MODAL TÁ HARDCODED SUCESS
+            onAlert(response, "success");
+        },
+        [deleteFile, setShowDeleteModal, folderPath, titleToDelete]
+    )
 
     const handleCancelDelete = () => {
         setShowDeleteModal(false)
@@ -60,16 +79,6 @@ export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName
         [onFolderClick]
     )
 
-    const hasFileExtension = str => {
-        // The regular expression pattern matches a string that contains a period (.) followed by one or more word characters at the end of the string
-        const regex = /\.\w+$/
-        return regex.test(str)
-    }
-
-    const truncateText = (text, maxLength) => {
-        return text.length > maxLength ? text.slice(0, maxLength) + '...' : text
-    }
-
     return (
         <tr key={id} className=" border border-border_gray">
             <td
@@ -83,7 +92,7 @@ export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName
                     : hasFileExtension(item.title) ?
                         <AiOutlineFile/> : <AiOutlineFolder/>
                 }
-                {truncateText(item.title ? item.title : item.name, 40)}
+                {formatText(item.title ? item.title : item.name, 40)}
             </td>
             {
                 !(tableName === "Users" && index === 0 && currentPage === 1) && (
@@ -100,11 +109,11 @@ export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName
                 showEditUserModal={showEditUserModal}
                 titleToDelete={titleToDelete}
                 userData={item}
-                onConfirmDelete={() => handleConfirmDelete(item.id)}
+                onConfirmDelete={() => tableName === 'Users' ? handleConfirmDelete(item.id) : handleConfirmDeleteFile()}
                 onCancelDelete={handleCancelDelete}
                 onConfirmEdit={handleConfirmEdit}
                 onCancelEdit={handleCancelEdit}
             />
         </tr>
-    );
+    )
 }
