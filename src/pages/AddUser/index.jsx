@@ -1,21 +1,22 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 
-import { Header } from "../../components/UI/Header";
+import { Header } from "../../components/UI/Header"
 import { InputField } from "../../components/UI/InputFields"
-import { useUsers } from "../../context/usersContext";
+import { useUsers } from "../../context/usersContext"
+import { useFiles } from "../../context/filesContext";
 
-import { AiOutlineArrowRight } from "react-icons/ai";
-import { MainButton } from "../../components/UI/MainButton";
+import { AiOutlineArrowRight } from "react-icons/ai"
+import { MainButton } from "../../components/UI/MainButton"
 import { AlertModal } from '../../components/Modals/AlertModal'
 
 import { Link } from "react-router-dom";
 
 export function AddUserPage() {
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isAdmin, setIsAdmin] = useState(false)
 
@@ -23,8 +24,9 @@ export function AddUserPage() {
     const [modalmessage, setModalmessage] = useState('')
     const [modalType, setModalType] = useState('')
 
-    const navigateTo = useNavigate();
+    const navigateTo = useNavigate()
     const { addUser } = useUsers()
+    const { setFolderPath } = useFiles()
 
     const handleSaveClick = async (e) => {
         e.preventDefault();
@@ -48,6 +50,9 @@ export function AddUserPage() {
         }
     }
 
+    function handleClick(){
+        setFolderPath([])
+    }
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -56,7 +61,7 @@ export function AddUserPage() {
                 <div className="bg-white rounded-lg p-10 w-1/2">
                     <div className="flex justify-between">
                         <h2 className="text-2xl font-medium mb-4">Add User</h2>
-                        <Link to="/">
+                        <Link to="/" onClick={handleClick}>
                             <AiOutlineArrowRight size="1.5em"/>
                         </Link>
                     </div>

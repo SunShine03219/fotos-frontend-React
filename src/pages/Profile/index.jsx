@@ -9,12 +9,13 @@ import { AlertModal } from '../../components/Modals/AlertModal'
 
 import { useUsers } from "../../context/usersContext"
 import { useAuth } from "../../hooks/auth";
-
+import { useFiles } from "../../context/filesContext";
 
 export function ProfilePage() {
 
     const { currentUser, updateUser } = useUsers()
     const { signOut } = useAuth()
+    const { setFolderPath } = useFiles()
 
     const userName = currentUser.name
     const userEmail = currentUser.email
@@ -83,6 +84,10 @@ export function ProfilePage() {
         setIsEditing(false);
     }
 
+    function handleClick(){
+        setFolderPath([])
+    }
+
     return (
         <div className="min-h-screen bg-gray-100">
             <Header name={userName} />
@@ -90,7 +95,7 @@ export function ProfilePage() {
                 <div className="bg-white rounded-lg p-10 w-1/2">
                     <div className="flex justify-between">
                         <h2 className="text-2xl font-medium mb-4">My Profile</h2>
-                        <Link to="/">
+                        <Link to="/" onClick={handleClick}>
                             <AiOutlineArrowRight size="1.5em" />
                         </Link>
                     </div>

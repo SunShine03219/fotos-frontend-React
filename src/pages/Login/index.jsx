@@ -1,34 +1,18 @@
-import { useState } from "react";
-
-import { InputField } from '../../components/UI/InputFields'
-import { MainButton } from '../../components/UI/MainButton'
 import { AlertModal } from '../../components/Modals/AlertModal'
-
-import { useAuth } from "../../hooks/auth";
+import { useLoginForm } from '../../hooks/useLoginForm'
+import { LoginForm } from "../../components/Forms/LoginForm"
 
 export function LoginPage() {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-
-    const [showModal, setShowModal] = useState(false)
-    const [modalmessage, setModalmessage] = useState('')
-    const [modalType, setModalType] = useState('')
-
-    const { signIn } = useAuth();
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const response = await signIn({ email, password })
-
-        //if login runs ok will return undefined
-        if (response){
-            setShowModal(true)
-            setModalmessage(response)
-            setModalType('error')
-            setTimeout(() => setShowModal(false), 1500)
-        }
-
-    };
+    const {
+        email,
+        setEmail,
+        password,
+        setPassword,
+        handleSubmit,
+        showModal,
+        message,
+        type
+    } = useLoginForm()
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -36,34 +20,15 @@ export function LoginPage() {
                 <div className="bg-gray-200 py-4 px-6 flex justify-between items-center">
                     <h2 className="text-3xl font-extrabold text-gray-900">Login</h2>
                 </div>
-                <form className="px-6 pt-8 pb-6" onSubmit={handleSubmit}>
-                    <div className="space-y-4">
-                        <div>
-                            <InputField
-                                label="Email"
-                                type="email"
-                                name="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <InputField
-                                label="Password"
-                                type="password"
-                                name="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="flex justify-end mt-6">
-                        <MainButton onSubmit={handleSubmit} title='Login' type="submit"/>
-                    </div>
-                </form>
+                <LoginForm
+                    email={email}
+                    setEmail={setEmail}
+                    password={password}
+                    setPassword={setPassword}
+                    handleSubmit={handleSubmit}
+                />
             </div>
-            { showModal && <AlertModal message={modalmessage} type={modalType} />}
+            { showModal && <AlertModal message={message} type={type} />}
         </div>
-    );
+    )
 }

@@ -4,11 +4,14 @@ import { PaginationTable } from '../Pagination'
 import { SearchBar } from '../SearchBar'
 import { Breadcrumb } from "../BreadCrumb";
 import { useTableData } from '../../../utils/useTableData'
-import { MainActionButtons } from "../MainActionButtons";
+import { MainActionButtons } from "../MainActionButtons"
+
+import { useFiles } from "../../../context/filesContext";
 
 
 export function MainContent({ tableName }) {
     const [data, setData] = useState([])
+    const { folderPath, setFolderPath } = useFiles()
 
     const { rowAction, mockedData, buttonTitle, buttonLink } = useTableData(tableName);
 
@@ -17,7 +20,7 @@ export function MainContent({ tableName }) {
     }, [mockedData]);
 
     const [searchTerm, setSearchTerm] = useState("")
-    const [folderPath, setFolderPath] = useState([])
+    //const [folderPath, setFolderPath] = useState([])
 
     const filteredData = useMemo(
         () =>
@@ -30,7 +33,7 @@ export function MainContent({ tableName }) {
 
     const handleDataUpdate = (updatedData) => {
         setData(updatedData.content)
-        const alreadyInPath = folderPath.some((folder) => folder.id === updatedData.id)
+        const alreadyInPath = folderPath.some((folder) => folder.title === updatedData.title)
         if (!alreadyInPath) {
             const newFolderPath = [...folderPath, updatedData]
             setFolderPath(newFolderPath)
@@ -39,7 +42,7 @@ export function MainContent({ tableName }) {
 
     const handleDataUpdateBreadCrumb = (updatedData) => {
         setData(updatedData.content);
-        const clickedIndex = folderPath.findIndex((folder) => folder.id === updatedData.id);
+        const clickedIndex = folderPath.findIndex((folder) => folder.title === updatedData.title);
         if (clickedIndex === -1) {
             return;
         }

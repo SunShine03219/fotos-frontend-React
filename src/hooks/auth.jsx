@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react"
 
-import {api, login, setSignOutHandler } from '../services/api'
+import { login } from '../services/userService'
+import { apiClient } from '../services/apiClient'
+import { setSignOutHandler } from '../services/apiClient'
 import { errorMessages } from '../utils/errorMessages'
 
 export const AuthContext = createContext({})
@@ -17,7 +19,7 @@ function AuthProvider({ children, onSignOut }) {
 
             localStorage.setItem("@doubleu:token", access_token)
 
-            api.defaults.headers.common['Authorization'] = '' + access_token
+            apiClient.defaults.headers.common['Authorization'] = '' + access_token
             setData({ access_token })
             setIsAuthenticated(true)
         } catch (error) {
@@ -40,7 +42,7 @@ function AuthProvider({ children, onSignOut }) {
         const access_token = localStorage.getItem("@doubleu:token");
 
         if (access_token){
-            api.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+            apiClient.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
             setData({
                 access_token,
             });

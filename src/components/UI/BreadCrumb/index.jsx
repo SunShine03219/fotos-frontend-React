@@ -2,7 +2,7 @@ import React from 'react';
 
 export function Breadcrumb({ folder, onFolderSelect, onReset }) {
     const breadcrumbItems = folder.map((folder, index) => (
-        <React.Fragment key={folder.id}>
+        <React.Fragment key={folder.title}>
             {index !== 0 && <span className="mx-2">/</span>}
             {index === folder.length - 1 ? (
                 <span>{folder.title}</span>

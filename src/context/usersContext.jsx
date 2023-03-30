@@ -1,5 +1,11 @@
 import {createContext, useState, useEffect, useContext} from "react"
-import { deleteUser, getAllUsers, getUserData, addUserToDatabase, editUserInfo} from "../services/api"
+import {
+    deleteUser,
+    getAllUsers,
+    getUserData,
+    addUserToDatabase,
+    editUserInfo,
+} from "../services/userService"
 import { errorMessages } from "../utils/errorMessages"
 
 
@@ -9,14 +15,18 @@ function UserProvider({ children }) {
     const [users, setUsers] = useState([])
     const [currentUser, setCurrentUser] = useState([])
 
-    const getToken = localStorage.getItem("@doubleu:token")
+    const updateUserList = async (userData) => {
+        if (userData.role === "admin") {
+            const allUsers = await getAllUsers(userData.id)
+            setUsers(allUsers)
+        }
+    }
 
     useEffect(() => {
         const fetchData = async () => {
-            const allUsers = await getAllUsers(getToken)
-            const userData = await getUserData(getToken)
-            setUsers(allUsers)
+            const userData = await getUserData()
             setCurrentUser(userData)
+            await updateUserList(userData)
         }
         fetchData()
     }, [])
@@ -33,10 +43,9 @@ function UserProvider({ children }) {
             if (email !== currentUser.email || (newPassword)) {
                 return {success: errorMessages['SIGN_OUT']}
             } else {
-                const userData = await getUserData(getToken)
-                const allUsers = await getAllUsers(getToken)
+                const userData = await getUserData()
                 setCurrentUser(userData)
-                setUsers(allUsers)
+                await updateUserList(userData)
                 return {updated: errorMessages['UPDATE']}
             }
         } catch (error) {
@@ -44,7 +53,7 @@ function UserProvider({ children }) {
                 return {error: errorMessages[error.response.data.error]}
             }
         }
-    };
+    }
 
     const adminUpdateUser = async (id, name, email, password) => {
         try {
@@ -54,10 +63,9 @@ function UserProvider({ children }) {
                 email,
                 newPassword: password
             })
-            const userData = await getUserData(getToken)
-            const allUsers = await getAllUsers(getToken)
+            const userData = await getUserData()
             setCurrentUser(userData)
-            setUsers(allUsers)
+            await updateUserList(userData)
             return {updated: errorMessages['UPDATE']}
         } catch (error) {
             if (error.response) {
@@ -68,24 +76,23 @@ function UserProvider({ children }) {
 
     const addUser = async (name, email, password, isAdmin) => {
         try {
-            await addUserToDatabase(name, email, password, isAdmin, getToken)
-            const allUsers = await getAllUsers(getToken)
-            const userData = await getUserData(getToken)
-            setUsers(allUsers)
+            await addUserToDatabase(name, email, password, isAdmin)
+            const userData = await getUserData()
             setCurrentUser(userData)
+            await updateUserList(userData)
         } catch (error) {
             if (error.response) {
                 return errorMessages[error.response.data.error]
             }
         }
-    };
+    }
 
     const deleteU = async (id, callback) => {
         try {
-            await deleteUser(id, getToken)
-            setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+            await deleteUser(id)
+            setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id))
             if (callback) {
-                callback();
+                callback()
             }
         } catch (error) {
             console.error('Error deleting user:', error);

@@ -30,7 +30,7 @@ export function PaginationTable({ data, action, itemsPerPage, tableName, onDataU
 
     return (
         <>
-            <Table data={currentItems} action={action} tableName={tableName} onFolderClickTable={handleFolderClick} />
+            <Table data={currentItems} action={action} tableName={tableName} onFolderClickTable={handleFolderClick} currentPage={currentPage}/>
             <div className="flex justify-center items-center mt-4">
                 {currentPage > 1 && (
                     <button
