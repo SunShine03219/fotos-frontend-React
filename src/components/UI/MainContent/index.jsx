@@ -70,7 +70,7 @@ export function MainContent({ tableName }) {
             <PaginationTable
                 data={filteredData}
                 action={rowAction}
-                itemsPerPage={3}
+                itemsPerPage={5}
                 onDataUpdate={handleDataUpdate}
                 tableName={tableName}
             />
