@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from "react"
-import { getFileData, uploadAPI, deleteAPI } from '../services/filesServices'
+import { getFileData, uploadAPI, deleteAPI, downloadFiles } from '../services/filesServices'
 
 export const FilesContext = createContext({})
 
@@ -26,6 +26,15 @@ function FilesProvider({ children }) {
         }
     }
 
+    const download = async (url) => {
+        try {
+            await downloadFiles(url)
+            return { success: 'Success download' }
+        } catch (error) {
+            return { error: 'Failed download' }
+        }
+    }
+
     const deleteFile = async (url) => {
         try {
             await deleteAPI(url)
@@ -42,7 +51,8 @@ function FilesProvider({ children }) {
             folderPath,
             setFolderPath,
             uploadFiles,
-            deleteFile
+            deleteFile,
+            download
         }}>
             {children}
         </FilesContext.Provider>

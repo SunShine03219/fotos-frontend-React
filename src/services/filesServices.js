@@ -22,4 +22,26 @@ const deleteAPI = async (url) => {
     return data
 }
 
-export { getFileData, uploadAPI, deleteAPI}
+const downloadFiles = async (url) => {
+    const response = await apiClient.get(`pictures/download${url}`, { responseType: 'blob' })
+
+    // Create a Blob from the response data
+    const blob = new Blob([response.data], { type: response.headers['content-type'] })
+
+    // Create an anchor element with a download attribute
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = url.split('/').pop()
+
+    // Append the link to the document and simulate a click event
+    document.body.appendChild(link)
+    link.click();
+
+    // Remove the link from the document and revoke the object URL
+    setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+    }, 100);
+};
+
+export { getFileData, uploadAPI, deleteAPI, downloadFiles}
