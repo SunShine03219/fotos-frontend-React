@@ -1,14 +1,15 @@
-import React from 'react';
+import React from 'react'
+import { formatText } from '../../../utils/helpers'
 
 export function Breadcrumb({ folder, onFolderSelect, onReset }) {
     const breadcrumbItems = folder.map((folder, index) => (
         <React.Fragment key={folder.title}>
             {index !== 0 && <span className="mx-2">/</span>}
             {index === folder.length - 1 ? (
-                <span>{folder.title}</span>
+                <span>{formatText(folder.title)}</span>
             ) : (
                 <a href="#" onClick={() => onFolderSelect(folder)}>
-                    {folder.title}
+                    {formatText(folder.title)}
                 </a>
             )}
         </React.Fragment>
