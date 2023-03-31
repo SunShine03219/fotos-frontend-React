@@ -16,11 +16,12 @@ export function MainContent({ tableName }) {
     const { rowAction, mockedData, buttonTitle, buttonLink } = useTableData(tableName);
 
     useEffect(() => {
-        setData(mockedData);
-    }, [mockedData]);
+        setData(mockedData)
+        setFolderPath([])
+    }, [mockedData])
 
     const [searchTerm, setSearchTerm] = useState("")
-    //const [folderPath, setFolderPath] = useState([])
+
 
     const filteredData = useMemo(
         () =>
