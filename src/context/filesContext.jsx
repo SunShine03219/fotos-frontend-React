@@ -5,27 +5,45 @@ export const FilesContext = createContext({})
 
 function FilesProvider({ children }) {
     const [files, setFiles] = useState([])
+    const [originalFiles, setOriginalFiles] = useState([])
+    const [optimizedFiles, setOptimizedFiles] = useState([])
     const [folderPath, setFolderPath] = useState([])
 
+    const updateFilesData = async () => {
+        const filesData = await getFileData();
+        const originalFilesObject = filesData.find(
+            (file) => file.title === "fotos-originais"
+        )
+        const optimizedFilesObject = filesData.find(
+            (file) => file.title === "fotos-otimizadas"
+        )
+
+        const originalFilesArray = [originalFilesObject]
+        const optimizedFilesArray = [optimizedFilesObject]
+
+        setFiles(filesData)
+        setOriginalFiles(originalFilesArray)
+        setOptimizedFiles(optimizedFilesArray)
+    };
 
     useEffect(() => {
         const fetchData = async () => {
-            const filesData = await getFileData()
-            setFiles(filesData)
-        }
+            await updateFilesData()
+        };
         fetchData()
     }, [])
+
+
 
     const uploadFiles = async (url, selectedFiles) => {
         try {
             await uploadAPI(url, selectedFiles)
-            const filesData = await getFileData()
-            setFiles(filesData)
+            await updateFilesData()
             return { success: 'Success Upload' }
         } catch (error) {
-            return { error: 'Error on Upload' }
+            return { error: "Error on Upload" };
         }
-    }
+    };
 
     const download = async (url) => {
         try {
@@ -39,12 +57,11 @@ function FilesProvider({ children }) {
     const deleteFile = async (url) => {
         try {
             await deleteAPI(url)
-            const filesData = await getFileData()
-            setFiles(filesData)
+            await updateFilesData()
         } catch (error) {
-            console.log('error on update files')
+            console.log("error on update files");
         }
-    }
+    };
 
     return (
         <FilesContext.Provider  value={{
@@ -53,7 +70,9 @@ function FilesProvider({ children }) {
             setFolderPath,
             uploadFiles,
             deleteFile,
-            download
+            download,
+            originalFiles,
+            optimizedFiles
         }}>
             {children}
         </FilesContext.Provider>
