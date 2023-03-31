@@ -21,8 +21,9 @@ function FilesProvider({ children }) {
             await uploadAPI(url, selectedFiles)
             const filesData = await getFileData()
             setFiles(filesData)
+            return { success: 'Success Upload' }
         } catch (error) {
-            console.log('error on update files')
+            return { error: 'Error on Upload' }
         }
     }
 
