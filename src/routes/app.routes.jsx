@@ -1,6 +1,6 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom'
 
-import { HomePage } from "../pages/Home";
+import { HomePage } from "../pages/Home"
 import { UploadFilesPage } from "../pages/UploadFiles"
 import { ProfilePage } from "../pages/Profile"
 import { AddUserPage } from "../pages/AddUser"

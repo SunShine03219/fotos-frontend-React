@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { Header } from "../../components/UI/Header"
 import { InputField } from "../../components/UI/InputFields"
 import { useUsers } from "../../context/usersContext"
-import { useFiles } from "../../context/filesContext";
+import { useFiles } from "../../context/filesContext"
 
 import { AiOutlineArrowRight } from "react-icons/ai"
 import { MainButton } from "../../components/UI/MainButton"
