@@ -42,14 +42,14 @@ function AuthProvider({ children, onSignOut }) {
         const access_token = localStorage.getItem("@doubleu:token");
 
         if (access_token){
-            apiClient.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+            apiClient.defaults.headers.common['Authorization'] = `Bearer ${access_token}`
             setData({
                 access_token,
-            });
+            })
             setIsAuthenticated(true);
         }
         setSignOutHandler(signOut)
-    }, []);
+    }, [])
 
     return (
         <AuthContext.Provider value={{

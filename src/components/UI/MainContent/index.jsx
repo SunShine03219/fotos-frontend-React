@@ -1,19 +1,19 @@
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react"
 
 import { PaginationTable } from '../Pagination'
 import { SearchBar } from '../SearchBar'
-import { Breadcrumb } from "../BreadCrumb";
+import { Breadcrumb } from "../BreadCrumb"
 import { useTableData } from '../../../utils/useTableData'
 import { MainActionButtons } from "../MainActionButtons"
 
-import { useFiles } from "../../../context/filesContext";
+import { useFiles } from "../../../context/filesContext"
 
 
 export function MainContent({ tableName }) {
     const [data, setData] = useState([])
     const { folderPath, setFolderPath } = useFiles()
 
-    const { rowAction, mockedData, buttonTitle, buttonLink } = useTableData(tableName);
+    const { rowAction, mockedData, buttonTitle, buttonLink } = useTableData(tableName)
 
     useEffect(() => {
         setData(mockedData)
@@ -47,7 +47,7 @@ export function MainContent({ tableName }) {
         if (clickedIndex === -1) {
             return;
         }
-        const newFolderPath = folderPath.slice(0, clickedIndex + 1);
+        const newFolderPath = folderPath.slice(0, clickedIndex + 1)
         setFolderPath(newFolderPath)
     }
 

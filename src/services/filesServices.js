@@ -39,8 +39,8 @@ const downloadFiles = async (url) => {
 
     // Remove the link from the document and revoke the object URL
     setTimeout(() => {
-        document.body.removeChild(link);
-        URL.revokeObjectURL(link.href);
+        document.body.removeChild(link)
+        URL.revokeObjectURL(link.href)
     }, 100);
 };
 
