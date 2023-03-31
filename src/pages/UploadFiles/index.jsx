@@ -34,7 +34,7 @@ export function UploadFilesPage(){
     })
 
     if (url === "") {
-        url = "/"
+        url = "/fotos-originais"
     }
 
     function handleFileChange(event) {
