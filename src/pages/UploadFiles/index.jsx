@@ -3,17 +3,29 @@ import React, { useState} from 'react'
 import { Header } from "../../components/UI/Header"
 
 import { MainButton } from "../../components/UI/MainButton"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { AiOutlineArrowRight, AiOutlineCloudUpload, AiOutlineClose } from "react-icons/ai"
 import { useFiles } from "../../context/filesContext"
 import { useUsers } from "../../context/usersContext"
 import { Spinner } from "../../components/UI/Spinner"
+import { AlertModal } from "../../components/Modals/AlertModal"
+import { useAlertModal } from "../../hooks/useAlertModal";
 
 export function UploadFilesPage(){
     const [selectedFiles, setSelectedFiles] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const { folderPath, setFolderPath, uploadFiles } = useFiles()
     const { currentUser } = useUsers()
+    const {
+        showModal,
+        setShowModal,
+        setMessage,
+        setType,
+        message,
+        type,
+    } = useAlertModal()
+
+    const navigateTo = useNavigate()
 
     let url = ""
 
@@ -41,7 +53,25 @@ export function UploadFilesPage(){
     }
 
     async function handleUploadClick() {
-        await uploadFiles(url, selectedFiles)
+        setIsLoading(true)
+        const response = await uploadFiles(url, selectedFiles)
+        setIsLoading(false)
+        if(response.error){
+            setShowModal(true)
+            setMessage(response.error)
+            setType("error")
+            setTimeout(() => setShowModal(false), 1500)
+        } else {
+            setShowModal(true)
+            setMessage(response.success)
+            setType("success")
+            setTimeout(() => {
+                setShowModal(false)
+                setFolderPath([])
+                setSelectedFiles([])
+                navigateTo('/')
+            }, 1500)
+        }
     }
 
     return (
@@ -67,13 +97,16 @@ export function UploadFilesPage(){
                                 accept=".jpg, .jpeg, .png, .gif, .zip" />
                         </label>
                         <div className="mt-6">
-                            {isLoading && <Spinner />}
-                            {selectedFiles.map((file, index) => (
-                                <div key={index} className="flex items-center justify-between mt-2">
-                                    <p className="text-gray-800 font-medium truncate max-w-xs">{file.name}</p>
-                                    <AiOutlineClose onClick={() => handleRemoveFile(index)} className="cursor-pointer"/>
-                                </div>
-                            ))}
+                            {isLoading ? (
+                                <Spinner />
+                            ) : (
+                                selectedFiles.map((file, index) => (
+                                    <div key={index} className="flex items-center justify-between mt-2">
+                                        <p className="text-gray-800 font-medium truncate max-w-xs">{file.name}</p>
+                                        <AiOutlineClose onClick={() => handleRemoveFile(index)} className="cursor-pointer" />
+                                    </div>
+                                ))
+                            )}
                         </div>
                         <div className="flex justify-end mt-20">
                             <MainButton title={isLoading ? 'Uploading...' : 'Upload'} onClick={handleUploadClick} />
@@ -84,6 +117,7 @@ export function UploadFilesPage(){
                     </div>
                 </div>
             </div>
+            { showModal && <AlertModal message={message} type={type} />}
         </div>
     )
 }
