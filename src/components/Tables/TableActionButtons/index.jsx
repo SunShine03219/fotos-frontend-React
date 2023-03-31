@@ -1,11 +1,15 @@
 import {AiOutlineCloudDownload, AiOutlineDelete, AiOutlineEdit} from "react-icons/ai";
 
-export function TableActionButtons({ rowTitle, item, onEditClick, onDeleteClick }) {
+export function TableActionButtons({ rowTitle, item, onEditClick, onDeleteClick, onDownloadClick }) {
     return (
         <td className="py-2 px-2">
             <div className="inline-flex space-x-2"> {/* or you can use "space-x-2" */}
                 {rowTitle === 'Download' ? (
-                    <AiOutlineCloudDownload size="1.5em" />
+                    <AiOutlineCloudDownload
+                        size="1.5em"
+                        className="cursor-pointer hover:text-primary"
+                        onClick={() => onDownloadClick(item)}
+                    />
                 ) : (
                     <AiOutlineEdit
                         size="1.5em"

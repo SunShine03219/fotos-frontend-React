@@ -14,7 +14,7 @@ export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName
     const [titleToDelete, setTitleToDelete] = useState('')
 
     const { deleteU } = useUsers()
-    const { deleteFile, folderPath } = useFiles()
+    const { deleteFile, folderPath, download } = useFiles()
 
 
     const handleDeleteClick = useCallback(
@@ -23,7 +23,7 @@ export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName
             setShowDeleteModal(true)
         },
         [setTitleToDelete, setShowDeleteModal]
-    );
+    )
 
     const handleConfirmDelete = useCallback(
         (id) => {
@@ -31,7 +31,7 @@ export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName
             setShowDeleteModal(false)
         },
         [deleteU, setShowDeleteModal]
-    );
+    )
 
     const handleConfirmDeleteFile = useCallback(
         async () => {
@@ -49,9 +49,6 @@ export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName
         [deleteFile, setShowDeleteModal, folderPath, titleToDelete]
     )
 
-    const handleCancelDelete = () => {
-        setShowDeleteModal(false)
-    }
 
 
 
@@ -66,9 +63,6 @@ export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName
         //TODO
         setShowEditUserModal(false)
     }
-    const handleCancelEdit = () => {
-        setShowEditUserModal(false)
-    }
 
     const handleRowClick = useCallback(
         (item) => {
@@ -78,6 +72,25 @@ export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName
         },
         [onFolderClick]
     )
+
+    const handleDownloadClick = useCallback(
+        async (item) => {
+
+            let url = folderPath.reduce((acc, folder) => acc + '/' + folder.title, '')
+
+            const encodedTitle = item.title.replace(/ /g, '%')
+            url += '/' + encodedTitle
+
+            const response = await download(url)
+
+            if (response.error) {
+                onAlert(response.error, "error")
+            } else {
+                onAlert(response.success, "success")
+            }
+        },
+        [folderPath, download]
+    );
 
     return (
         <tr key={id} className=" border border-border_gray">
@@ -101,6 +114,7 @@ export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName
                         item={item}
                         onEditClick={handleEditClick}
                         onDeleteClick={handleDeleteClick}
+                        onDownloadClick={() => handleDownloadClick(item)}
                     />
                 )
             }
@@ -110,9 +124,9 @@ export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName
                 titleToDelete={titleToDelete}
                 userData={item}
                 onConfirmDelete={() => tableName === 'Users' ? handleConfirmDelete(item.id) : handleConfirmDeleteFile()}
-                onCancelDelete={handleCancelDelete}
+                onCancelDelete={() => setShowDeleteModal(false)}
                 onConfirmEdit={handleConfirmEdit}
-                onCancelEdit={handleCancelEdit}
+                onCancelEdit={() => setShowEditUserModal(false)}
             />
         </tr>
     )
