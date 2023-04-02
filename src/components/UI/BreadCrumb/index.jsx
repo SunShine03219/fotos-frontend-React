@@ -1,7 +1,7 @@
 import React from "react";
 import { formatText } from "../../../utils/helpers";
 
-export function Breadcrumb({ folder, onFolderSelect, onReset }) {
+export function Breadcrumb({ folder, onFolderSelect }) {
   const breadcrumbItems = folder.map((folder, index) => (
     <React.Fragment key={folder.title}>
       {index !== 0 && <span className="mx-2">/</span>}
@@ -17,10 +17,7 @@ export function Breadcrumb({ folder, onFolderSelect, onReset }) {
 
   return (
     <div className="flex items-center space-x-2 mb-4">
-      <span className=" cursor-pointer" onClick={onReset}>
-        Start /
-      </span>
-
+      <span>/</span>
       {breadcrumbItems}
     </div>
   );

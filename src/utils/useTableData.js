@@ -8,7 +8,7 @@ export function useTableData(tableName) {
   const tableDataLookup = {
     Original: {
       rowAction: "Download",
-      mockedData: originalFiles,
+      data: originalFiles,
       buttons: [
         { buttonTitle: "New folder", buttonLink: "/new-folder" },
         { buttonTitle: "Upload File Here", buttonLink: "/upload" },
@@ -16,11 +16,11 @@ export function useTableData(tableName) {
     },
     Optimized: {
       rowAction: "Download",
-      mockedData: optimizedFiles,
+      data: optimizedFiles,
     },
     Videos: {
       rowAction: "Download",
-      mockedData: videoFiles,
+      data: videoFiles,
       buttons: [
         { buttonTitle: "New folder", buttonLink: "/new-folder" },
         { buttonTitle: "Upload File Here", buttonLink: "/upload" },
@@ -28,7 +28,7 @@ export function useTableData(tableName) {
     },
     Users: {
       rowAction: "Edit",
-      mockedData: users,
+      data: users,
       buttons: [{ buttonTitle: "Add User", buttonLink: "/add-user" }],
     },
   };

@@ -10,12 +10,20 @@ import { useFiles } from "../../../context/filesContext";
 export function MainContent({ tableName }) {
   const [data, setData] = useState([]);
   const { folderPath, setFolderPath } = useFiles();
-  const { rowAction, mockedData, buttons } = useTableData(tableName);
+  const { rowAction, data: tableData, buttons } = useTableData(tableName);
 
   useEffect(() => {
-    setData(mockedData);
-    setFolderPath([]);
-  }, [mockedData]);
+    if (tableName === "Users") {
+      setData(tableData);
+      setFolderPath([]);
+      return;
+    }
+
+    if (tableData && tableData[0]) {
+      setData(tableData[0].content);
+      setFolderPath(tableData);
+    }
+  }, [tableData]);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -46,11 +54,6 @@ export function MainContent({ tableName }) {
     setFolderPath(newFolderPath);
   };
 
-  const onReset = () => {
-    setFolderPath([]);
-    setData(mockedData);
-  };
-
   return (
     <div className="w-full flex flex-col flex-1 h-full">
       <div className="flex justify-between">
@@ -70,10 +73,7 @@ export function MainContent({ tableName }) {
         </div>
       </div>
 
-      {tableName !== "Users" && (
-        <Breadcrumb folder={folderPath} onFolderSelect={handleDataUpdateBreadCrumb} onReset={onReset} />
-      )}
-
+      {tableName !== "Users" && <Breadcrumb folder={folderPath} onFolderSelect={handleDataUpdateBreadCrumb} />}
       <Table action={rowAction} data={filteredData} tableName={tableName} onFolderClickTable={handleDataUpdate} />
     </div>
   );
