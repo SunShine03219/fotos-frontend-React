@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_LOCAL_URL = "http://35.247.223.130:8000/";
+const BASE_LOCAL_URL = "https://35.247.223.130:8000/";
 const TOKEN_STORAGE_KEY = "@doubleu:token";
 
 export const apiClient = axios.create({
