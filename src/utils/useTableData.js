@@ -17,6 +17,7 @@ export function useTableData(tableName) {
     Optimized: {
       rowAction: "Download",
       data: optimizedFiles,
+      buttons: [{ buttonTitle: "Refresh data", refreshData: true }],
     },
     Videos: {
       rowAction: "Download",

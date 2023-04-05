@@ -1,8 +1,14 @@
 import { MainButton } from "../MainButton";
 import { Link } from "react-router-dom";
 
-export function MainActionButtons({ tableName, buttonLink, buttonTitle }) {
-  if (tableName === "Optimized") return null;
+export function MainActionButtons({ buttonLink, buttonTitle, refreshData, onRefreshData }) {
+  if (refreshData) {
+    return (
+      <div>
+        <MainButton title={buttonTitle} onClick={onRefreshData} />
+      </div>
+    );
+  }
 
   return (
     <Link to={buttonLink}>

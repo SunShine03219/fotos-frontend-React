@@ -9,7 +9,7 @@ import { useFiles } from "../../../context/filesContext";
 
 export function MainContent({ tableName }) {
   const [data, setData] = useState([]);
-  const { folderPath, setFolderPath } = useFiles();
+  const { folderPath, setFolderPath, updateFilesData } = useFiles();
   const { rowAction, data: tableData, buttons } = useTableData(tableName);
 
   useEffect(() => {
@@ -64,9 +64,10 @@ export function MainContent({ tableName }) {
             return (
               <MainActionButtons
                 key={button.buttonTitle}
-                tableName={tableName}
                 buttonLink={button.buttonLink}
                 buttonTitle={button.buttonTitle}
+                refreshData={button.refreshData}
+                onRefreshData={updateFilesData}
               />
             );
           })}

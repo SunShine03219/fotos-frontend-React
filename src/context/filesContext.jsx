@@ -84,6 +84,7 @@ function FilesProvider({ children }) {
         optimizedFiles,
         videoFiles,
         createFolder,
+        updateFilesData,
       }}
     >
       {children}
