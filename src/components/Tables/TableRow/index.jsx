@@ -89,10 +89,18 @@ export function PictureRow({ id, item, index, rowTitle, onFolderClick, tableName
         {tableName === "Users" ? (
           <AiOutlineUser style={{ color: index === 0 && currentPage === 1 ? "blue" : "inherit" }} />
         ) : hasFileExtension(item.title) ? (
-          <AiOutlineFile />
+          <a href={item.preview_url} target="_blank">
+            <img
+              className="block w-[60px] h-[60px] object-cover border border-solid border-gray-300"
+              src={item.preview_url}
+              width="60"
+              height="60"
+            />
+          </a>
         ) : (
           <AiFillFolder />
         )}
+
         {formatText(item.title ? item.title : item.name, 40)}
       </td>
       {!(tableName === "Users" && index === 0 && currentPage === 1) && (
