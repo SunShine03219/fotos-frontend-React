@@ -9,28 +9,32 @@ function FilesProvider({ children }) {
   const [optimizedFiles, setOptimizedFiles] = useState([]);
   const [videoFiles, setVideoFiles] = useState([]);
   const [folderPath, setFolderPath] = useState([]);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const updateFilesData = async () => {
-    const filesData = await getFileData();
-    const originalFilesObject = filesData.find((file) => file.title === "fotos-originais");
-    const optimizedFilesObject = filesData.find((file) => file.title === "fotos-otimizadas");
-    const videoFilesObject = filesData.find((file) => file.title === "videos");
-    const originalFilesArray = [originalFilesObject];
-    const optimizedFilesArray = [optimizedFilesObject];
-    const videoFilesArray = [videoFilesObject];
+    setIsUpdating(true);
 
-    setFiles(filesData);
-    setOriginalFiles(originalFilesArray);
-    setOptimizedFiles(optimizedFilesArray);
-    setVideoFiles(videoFilesArray);
+    try {
+      const filesData = await getFileData();
+      const originalFilesObject = filesData.find((file) => file.title === "fotos-originais");
+      const optimizedFilesObject = filesData.find((file) => file.title === "fotos-otimizadas");
+      const videoFilesObject = filesData.find((file) => file.title === "videos");
+      const originalFilesArray = [originalFilesObject];
+      const optimizedFilesArray = [optimizedFilesObject];
+      const videoFilesArray = [videoFilesObject];
+
+      setFiles(filesData);
+      setOriginalFiles(originalFilesArray);
+      setOptimizedFiles(optimizedFilesArray);
+      setVideoFiles(videoFilesArray);
+    } catch {
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      await updateFilesData();
-    };
-
-    fetchData();
+    updateFilesData();
   }, []);
 
   const uploadFiles = async (url, selectedFiles) => {
@@ -55,7 +59,7 @@ function FilesProvider({ children }) {
   const deleteFile = async (url) => {
     try {
       await deleteAPI(url);
-      await updateFilesData();
+      updateFilesData();
     } catch (error) {
       console.log("error on update files");
     }
@@ -85,6 +89,7 @@ function FilesProvider({ children }) {
         videoFiles,
         createFolder,
         updateFilesData,
+        isUpdating,
       }}
     >
       {children}
