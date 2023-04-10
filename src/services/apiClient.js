@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_LOCAL_URL = "https://wir.indays.app:8000/";
+const BASE_LOCAL_URL = "https://fotos-whereinrio.com:8000/";
 const TOKEN_STORAGE_KEY = "@doubleu:token";
 
 export const apiClient = axios.create({
